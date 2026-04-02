@@ -11,21 +11,25 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // CONFIGURAÇÃO ÚNICA USANDO O .ENV
+// Configuração da conexão com o MySQL (Aiven)
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
+    ssl: {
+        rejectUnauthorized: false // <--- OBRIGATÓRIO PARA O AIVEN
+    }
 });
 
-// CONECTANDO AO BANCO
-db.connect(err => {
+// Tentativa de conexão
+db.connect((err) => {
     if (err) {
-        console.error('❌ ERRO CRÍTICO NO MYSQL:', err.sqlMessage);
-    } else {
-        console.log('✅ Conectado ao banco com sucesso!');
-        console.log("📂 Banco ativo:", process.env.DB_NAME);
+        console.error('❌ ERRO CRÍTICO NO MYSQL:', err.message);
+        return;
     }
+    console.log('✅ Conectado ao banco de dados MySQL no Aiven!');
 });
 
 // AQUI EMBAIXO CONTINUAM SUAS ROTAS (app.post, app.get, etc...)
