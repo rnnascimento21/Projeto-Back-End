@@ -1,0 +1,171 @@
+      <!DOCTYPE html>
+      <html lang="pt-br">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link rel="stylesheet" href="assets/css/style.css">
+          <title>Projeto Sustentabilidade</title>
+      </head>
+          <!--Barra de navegação-->
+<header>
+  <nav class="nav-bar">
+    <div class="logo">
+      <a href="index.html" class="nav-link">
+        <span style="color: #ffff; font-weight: bold;">Sustenta</span>
+        <span style="color: #1e8449; font-weight: bold;">Tech</span>
+      </a>
+    </div>
+
+    <!-- Links de navegação -->
+    <div class="nav-list">
+      <ul>
+        <li class="nav-item"><a href="index.html" class="nav-link">Início</a></li>
+        <li class="nav-item"><a href="projetos.html" class="nav-link">Projetos</a></li>
+        <li class="nav-item"><a href="sobre.html" class="nav-link">Sobre</a></li>
+      </ul>
+    </div>
+
+    <!-- Botão de login -->
+    <div class="login-button">
+      <button><a href="entrar.html">Entrar</a></button>
+    </div>
+
+    <!-- Botão de tema -->
+    <div class="theme-toggle">
+      <button id="toggleMode" aria-label="Alternar modo claro/escuro">🌙</button>
+    </div>
+
+    <!-- Ícone do menu mobile -->
+    <div class="mobile-menu-icon">
+      <button onclick="menuShow()">
+        <img class="icon" src="assets/img/icons8-cardápio-48.png" alt="menu">
+      </button>
+    </div>
+  </nav>
+
+  <!-- Menu mobile -->
+  <div class="mobile-menu">
+    <ul>
+      <li class="nav-item"><a href="index.html" class="nav-link">Início</a></li>
+      <li class="nav-item"><a href="projetos.html" class="nav-link">Projetos</a></li>
+      <li class="nav-item"><a href="sobre.html" class="nav-link">Sobre</a></li>
+    </ul>
+    <div class="login-button">
+      <button><a href="entrar.html">Entrar</a></button>
+    </div>
+  </div>
+</header>
+
+          <!--Slider de imagens-->
+      <div class="slider">
+        <div class="slide">
+          <input type="radio" name="radio-btn" id="radio1" checked>
+          <input type="radio" name="radio-btn" id="radio2">
+          <input type="radio" name="radio-btn" id="radio3">
+          <input type="radio" name="radio-btn" id="radio4">
+
+          <div class="first">
+            <img src="assets/img/sustentaTHUMB.png" alt="Imagem 1">
+            <img src="assets/img/thumbSUSTENTA2.png" alt="Imagem 2">
+            <img src="assets/img/thumbSOLAR.png" alt="Imagem 3">
+            <img src="assets/img/thumbRECICLA.png" alt="Imagem 4">
+          </div>
+        </div>
+        <!---Final do slide-->
+
+        <!-- Botões manuais -->
+        <div class="manual-navigation">
+          <label for="radio1" class="manual-btn"></label>
+          <label for="radio2" class="manual-btn"></label>
+          <label for="radio3" class="manual-btn"></label>
+          <label for="radio4" class="manual-btn"></label>
+        </div>
+      </div>
+      <!--Final do botão-->
+      <!--Portfolio-->
+<section class="portfolio">
+  <h2>Nossos Projetos</h2>
+  <p>Conheça algumas iniciativas da SustentaTech que fazem a diferença no meio ambiente.</p>
+
+  <div class="portfolio-container">
+    <div class="portfolio-item">
+      <img src="assets/img/solar.jpg" alt="Energia Solar">
+      <h3>Energia Solar</h3>
+      <p>Instalação de painéis solares para empresas e residências, reduzindo custos e emissões.</p>
+    </div>
+
+    <div class="portfolio-item">
+      <img src="assets/img/recicla.jpg" alt="Reciclagem Inteligente">
+      <h3>Reciclagem Inteligente</h3>
+      <p>Projeto de coleta seletiva automatizada e conscientização nas comunidades locais.</p>
+    </div>
+
+    <div class="portfolio-item">
+      <img src="assets/img/arvore.jpg" alt="Reflorestamento">
+      <h3>Reflorestamento</h3>
+      <p>Campanha de plantio de árvores e recuperação de áreas verdes urbanas.</p>
+    </div>
+  </div>
+</section>
+          </main>
+      <!--Final de Portfolio-->
+
+      <footer> 
+        <div class="interface">
+          <section class="line-footer1">
+            <h2> Gostaria de receber noticias sobre o SustentaTech?</h2>
+            <p> Inscreva-se em nossa newslattler e receba as principais noticias do mundo da Sustentabilidade em seu e-mail:</p>
+            <form action="">
+              <input type="email" placeholder="Digite seu e-mail">
+              <input type="submit" value="Cadastrar">
+            </form>
+          </section>
+
+          <section class="line-foorter2">
+             <div class="box-line-footer">
+              <img src="assets/img/logotipo.png" alt="Logotipo SustentaTech">
+              <p>Este site é um espaço para inspirar, ensinar e mostrar que pequenas ações digitais também têm impacto real. Cada linha de código pode ser um passo rumo a um futuro mais verde e equilibrado.</p>
+             </div>
+
+            <div class="box-line-footer">
+              <h3>Links Rápidos</h3>
+                <div class="links-footer">
+                   <li><a href="index.html">Início</a></li>
+                   <li><a href="projetos.html">Projetos</a></li>
+                   <li><a href="sobre.html">Sobre</a></li>
+                   <li><a href="entrar.html">Entrar</a></li>
+                </div>
+            </div>
+
+            <div class="box-line-footer">
+              <h3>Contato</h3>
+                <div class="links-footer">
+                   <li><p>Rua São Januario, 3070 - São Cristóvão, CEP: 13846-220 - Rio de Janeiro - RJ Visite o nosso Blog! +55 (21)98281-6261 contato@sustentatech.com.br</p>
+                </div>
+            </div>
+
+            <div class="box-line-footer">
+              <h3>Sobre nos</h3>
+                <div class="links-footer">
+                   <li><p>A SustentaTech é dedicada a promover soluções tecnológicas que impulsionam a sustentabilidade ambiental. Nosso objetivo é integrar inovação e responsabilidade ecológica para criar um futuro melhor.</p>
+                </div>
+                
+            </div>
+          </section>
+
+          <section class="line-footer3">
+            <p>SustentaTech&copy; Todos os direitos Reservados!</p>
+          </section>
+
+
+        </div>
+      </footer>
+
+      </body>
+      </html>
+              <script src="assets/js/darkmode.js"></script>
+              <script src="assets/js/carrossel.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+              <script src="assets/js/script.js"></script>
+      </body>
+      </html>

@@ -1,0 +1,141 @@
+      <!DOCTYPE html>
+      <html lang="pt-br">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Sistema de Acesso</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+          <link rel="stylesheet" href="assets/css/style.css">
+      </head>
+          <!--Barra de navegação-->
+          <header>
+            <!--logo tipo-->
+              <nav class="nav-bar">
+                  <div class="logo">
+                     <a href="index.html" class="nav-link">
+                     <span style="color: #ffff; font-weight: bold;">Sustenta</span>
+                     <span style="color: #1e8449; font-weight: bold;">Tech</span>
+                     </a>
+                     
+                  </div>
+
+                  <div class="search">
+                    <label for="searchInput"><i class="fas fa-search"></i></label>
+                    <input type="text" id="searchInput" placeholder="Pesquisar">
+                  </div>
+
+                  <div class="card-container1">
+                    <div class="cardSearch">
+                    </div>
+                  </div>
+
+                  <div class="nav-list">
+                      <ul>
+                          <li class="nav item"><a href="index.html" class="nav-link">Inicio</a></li>
+                          <li class="nav item"><a href="projetos.html" class="nav-link">Projetos</a></li>
+                          <li class="nav item"><a href="sobre.html" class="nav-link">Sobre</a></li>                    
+                      </ul>
+                  </div>
+
+          <!--botão de login--> 
+                  <div class="login-button">
+                      <button><a href="entrar.html">Entrar</a></button>
+                  </div>
+
+                  <!-- Botão de tema -->
+                  <div class="theme-toggle">
+                    <button id="toggleMode" aria-label="Alternar modo claro/escuro">🌙</button>
+                  </div>
+                  
+              </nav>
+          </header>
+          <main>
+            <section class="login-page">
+              <div class="login-card">
+                <div class="text-center mb-6">
+                  <h1>Bem-vindo</h1>
+                  <p>Faça login para continuar no SustentaTech</p>
+                </div>
+                <form id="auth-form" class="space-y-5">
+                  <div class="form-group hidden" id="name-field">
+                    <label for="name">Nome Completo</label>
+                    <input type="text" id="name" placeholder="Seu nome" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required placeholder="email@exemplo.com" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" required placeholder="••••••••" />
+                  </div>
+
+                  <button type="submit" id="submit-btn">Entrar</button>
+                </form>
+
+                <p class="subtext">Não tem uma conta? <button type="button" id="toggle-btn">Cadastre-se</button></p>
+                <p class="social-notice">Acesso protegido. Suas credenciais não são armazenadas localmente.</p>
+              </div>
+            </section>
+
+      <!--Final de Portfolio-->
+
+      <footer> 
+        <div class="interface">
+          <section class="line-footer1">
+            <h2> Gostaria de receber noticias sobre o SustentaTech?</h2>
+            <p> Inscreva-se em nossa newslattler e receba as principais noticias do mundo da Sustentabilidade em seu e-mail:</p>
+            <form action="">
+              <input type="email" placeholder="Digite seu e-mail">
+              <input type="submit" value="Cadastrar">
+            </form>
+          </section>
+
+          <section class="line-foorter2">
+             <div class="box-line-footer">
+              <img src="assets/img/logotipo.png" alt="Logotipo SustentaTech">
+              <p>Este site é um espaço para inspirar, ensinar e mostrar que pequenas ações digitais também têm impacto real. Cada linha de código pode ser um passo rumo a um futuro mais verde e equilibrado.</p>
+             </div>
+
+            <div class="box-line-footer">
+              <h3>Links Rápidos</h3>
+                <div class="links-footer">
+                   <li><a href="index.html">Início</a></li>
+                   <li><a href="projetos.html">Projetos</a></li>
+                   <li><a href="sobre.html">Sobre</a></li>
+                   <li><a href="entrar.html">Entrar</a></li>
+                </div>
+            </div>
+
+            <div class="box-line-footer">
+              <h3>Contato</h3>
+                <div class="links-footer">
+                   <li><p>Rua São Januario, 3070 - São Cristóvão, CEP: 13846-220 - Rio de Janeiro - RJ Visite o nosso Blog! +55 (21)98281-6261 contato@sustentatech.com.br</p>
+                </div>
+            </div>
+
+            <div class="box-line-footer">
+              <h3>Sobre nos</h3>
+                <div class="links-footer">
+                   <li><p>A SustentaTech é dedicada a promover soluções tecnológicas que impulsionam a sustentabilidade ambiental. Nosso objetivo é integrar inovação e responsabilidade ecológica para criar um futuro melhor.</p>
+                </div>
+                
+            </div>
+          </section>
+
+          <section class="line-footer3">
+            <p>SustentaTech&copy; Todos os direitos Reservados!</p>
+          </section>
+
+
+        </div>
+      </footer>
+
+      <script src="assets/js/darkmode.js"></script>
+      <script src="assets/js/carrossel.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      </body>
+      </html>
