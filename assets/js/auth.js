@@ -24,18 +24,20 @@ authForm.addEventListener('submit', async (event) => {
     const password = document.getElementById('password').value;
     const isCadastro = !nameField.classList.contains('hidden');
     
-    // Só pega o nome se for cadastro
     let nome = "";
     if (isCadastro) {
         nome = document.getElementById('name').value;
         if (!nome) return alert("Por favor, digite seu nome.");
     }
 
-    const url = isCadastro ? 'http://localhost:3000/cadastro' : 'http://localhost:3000/login';
+    // 🔥 ATUALIZADO: Usando o link do RENDER em vez de localhost
+    const baseUrl = 'https://projeto-back-end-n8lm.onrender.com';
+    const url = isCadastro ? `${baseUrl}/cadastro` : `${baseUrl}/login`;
+    
     const corpoDados = isCadastro ? { nome, email, senha: password } : { email, senha: password };
 
     try {
-        console.log(`Tentando enviar para: ${url}`); // Para você ver no F12
+        console.log(`Tentando enviar para: ${url}`); 
         
         const resposta = await fetch(url, {
             method: 'POST',
@@ -58,41 +60,6 @@ authForm.addEventListener('submit', async (event) => {
         }
     } catch (erro) {
         console.error("Erro na requisição:", erro);
-        alert("Servidor desligado ou erro de rede. Verifique o terminal!");
+        alert("Erro ao conectar com o servidor na nuvem! Verifique se o Render está rodando.");
     }
 });
-async function carregarProjetos() {
-    const container = document.getElementById('container-projetos');
-    
-    // Verifica se o container existe na página atual
-    if (!container) return;
-
-    try {
-        // Faz a chamada para a rota que você criou no server.js
-        const resposta = await fetch('http://localhost:3000/projetos');
-        const projetos = await resposta.json();
-
-        // Limpa a mensagem "Carregando..."
-        container.innerHTML = "";
-
-        if (projetos.length === 0) {
-            container.innerHTML = "<p>Nenhum projeto cadastrado no momento.</p>";
-            return;
-        }
-
-        // Monta os cards usando os dados do seu MySQL (titulo, descricao, imagem_url)
-        projetos.forEach(projeto => {
-            container.innerHTML += `
-                <div class="portfolio-item">
-                    <img src="assets/img/${projeto.imagem_url}" alt="${projeto.titulo}">
-                    <h3>${projeto.titulo}</h3>
-                    <p>${projeto.descricao}</p>
-                </div>
-            `;
-        });
-    } catch (erro) {
-        console.error("Erro ao carregar projetos:", erro);
-        container.innerHTML = "<p>Erro ao conectar com o servidor. O Node está rodando?</p>";
-    }
-}
-

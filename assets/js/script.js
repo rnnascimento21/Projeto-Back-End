@@ -1,64 +1,25 @@
+// 1. Função para o Menu Mobile
 function menuShow(){
     let menuMobile = document.querySelector('.mobile-menu');
+    let icon = document.querySelector('.icon');
+    
     if(menuMobile.classList.contains('open')){
         menuMobile.classList.remove('open');
-        document.querySelector('.icon').src = "assets/img/icons8-cardápio-48.png";
+        if(icon) icon.src = "assets/img/icons8-cardápio-48.png";
     } else {
         menuMobile.classList.add('open');
-        document.querySelector('.icon').src = "assets/img/icons8-excluir-50.png";
+        if(icon) icon.src = "assets/img/icons8-excluir-50.png";
     }       
 }
-async function carregarDadosDoBanco() {
-    try {
-        const resposta = await fetch('http://localhost:3000/projetos');
-        const projetos = await resposta.json();
-        
-        console.log("Projetos vindos do MySQL:", projetos);
-        
-        // Aqui você pode usar um projetos.forEach() para criar seus cards
-        // Exemplo: alert("Projeto do banco: " + projetos[0].titulo);
-        
-    } catch (erro) {
-        console.error("Erro ao conectar com o servidor Node:", erro);
-    }
-}
 
-carregarDadosDoBanco();
-async function carregarDadosDoBanco() {
-    try {
-        const resposta = await fetch('http://localhost:3000/projetos');
-        const projetos = await resposta.json();
-        
-        const container = document.getElementById('container-projetos');
-        
-        if (container) {
-            container.innerHTML = ""; // Limpa o container
-
-            projetos.forEach(projeto => {
-                const card = `
-                    <div class="projeto-card">
-                        <img src="assets/img/${projeto.imagem_url}" alt="${projeto.titulo}" style="width:100%">
-                        <h3>${projeto.titulo}</h3>
-                        <p>${projeto.descricao}</p>
-                    </div>
-                `;
-                container.innerHTML += card;
-            });
-        }
-    } catch (erro) {
-        console.error("Erro ao carregar projetos:", erro);
-    }
-}
-
-// Chama a função assim que a página carregar
-window.onload = carregarDadosDoBanco;
+// 2. Função para Carregar Projetos do Backend (RENDER)
 async function carregarProjetos() {
     const container = document.getElementById('container-projetos');
-    
     if (!container) return;
 
     try {
-        const resposta = await fetch('http://localhost:3000/projetos');
+        // LINK ATUALIZADO PARA O RENDER
+        const resposta = await fetch('https://projeto-back-end-n8lm.onrender.com/projetos');
         const projetos = await resposta.json();
 
         container.innerHTML = ""; 
@@ -69,9 +30,10 @@ async function carregarProjetos() {
         }
 
         projetos.forEach(projeto => {
+            // Usando a classe 'portfolio-item' que você já tem no CSS
             container.innerHTML += `
                 <div class="portfolio-item">
-                    <img src="assets/img/${projeto.imagem_url}" alt="${projeto.titulo}">
+                    <img src="assets/img/${projeto.imagem_url}" alt="${projeto.titulo}" onerror="this.src='assets/img/sustentaTHUMB.png'">
                     <h3>${projeto.titulo}</h3>
                     <p>${projeto.descricao}</p>
                 </div>
@@ -79,8 +41,57 @@ async function carregarProjetos() {
         });
     } catch (erro) {
         console.error("Erro ao carregar projetos:", erro);
-        container.innerHTML = "<p>Erro ao conectar com o servidor. O Node está rodando?</p>";
+        container.innerHTML = "<p>Erro ao conectar com o servidor na nuvem.</p>";
     }
 }
 
+// 3. Inicia a carga assim que o site abrir
+document.addEventListener('DOMContentLoaded', carregarProjetos);// 1. Função para o Menu Mobile
+function menuShow(){
+    let menuMobile = document.querySelector('.mobile-menu');
+    let icon = document.querySelector('.icon');
+    
+    if(menuMobile.classList.contains('open')){
+        menuMobile.classList.remove('open');
+        if(icon) icon.src = "assets/img/icons8-cardápio-48.png";
+    } else {
+        menuMobile.classList.add('open');
+        if(icon) icon.src = "assets/img/icons8-excluir-50.png";
+    }       
+}
+
+// 2. Função para Carregar Projetos do Backend (RENDER)
+async function carregarProjetos() {
+    const container = document.getElementById('container-projetos');
+    if (!container) return;
+
+    try {
+        // LINK ATUALIZADO PARA O RENDER
+        const resposta = await fetch('https://projeto-back-end-n8lm.onrender.com/projetos');
+        const projetos = await resposta.json();
+
+        container.innerHTML = ""; 
+
+        if (projetos.length === 0) {
+            container.innerHTML = "<p>Nenhum projeto cadastrado no momento.</p>";
+            return;
+        }
+
+        projetos.forEach(projeto => {
+            // Usando a classe 'portfolio-item' que você já tem no CSS
+            container.innerHTML += `
+                <div class="portfolio-item">
+                    <img src="assets/img/${projeto.imagem_url}" alt="${projeto.titulo}" onerror="this.src='assets/img/sustentaTHUMB.png'">
+                    <h3>${projeto.titulo}</h3>
+                    <p>${projeto.descricao}</p>
+                </div>
+            `;
+        });
+    } catch (erro) {
+        console.error("Erro ao carregar projetos:", erro);
+        container.innerHTML = "<p>Erro ao conectar com o servidor na nuvem.</p>";
+    }
+}
+
+// 3. Inicia a carga assim que o site abrir
 document.addEventListener('DOMContentLoaded', carregarProjetos);
