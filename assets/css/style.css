@@ -679,3 +679,47 @@ body.dark-mode .theme-toggle button {
   color: #444;
   padding: 0 15px 20px;
 }
+/* Container que segura todos os cards */
+.flex {
+    display: flex;
+    flex-wrap: wrap; /* Faz os cards irem para a linha de baixo se não couberem */
+    gap: 20px;       /* Espaço entre um card e outro */
+    justify-content: center;
+    padding: 40px 0;
+}
+
+/* Estilo de cada Card individual */
+.projeto-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 20px;
+    width: 320px;      /* Define a largura fixa do card */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.projeto-card:hover {
+    transform: translateY(-10px); /* Efeito de flutuar ao passar o mouse */
+}
+
+/* Ajuste da Imagem (Para ela não ficar gigante!) */
+.projeto-card img {
+    width: 100%;       /* Ocupa a largura total do card (320px) */
+    height: 200px;     /* Altura fixa para todas as imagens ficarem iguais */
+    object-fit: cover; /* Corta a imagem sem distorcer se for grande demais */
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.projeto-card h3 {
+    color: #1e8449;
+    margin-bottom: 10px;
+}
+
+.projeto-card p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
