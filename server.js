@@ -1,4 +1,4 @@
-require('dotenv').config(); // IMPORTANTE: Isso deve ser a primeira linha!
+require('dotenv').config();
 
 const express = require('express');
 const mysql = require('mysql2');
@@ -10,44 +10,31 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// CONFIGURAÇÃO ÚNICA USANDO O .ENV
-// Configuração da conexão com o MySQL (Aiven)
+// CONFIGURAÇÃO DO BANCO (AIVEN)
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    port: process.env.DB_PORT || 14505, // <--- GARANTA QUE ISSO ESTÁ AQUI
+    port: process.env.DB_PORT || 14505,
     ssl: {
-        rejectUnauthorized: false // <--- OBRIGATÓRIO PARA O AIVEN
+        rejectUnauthorized: false
     }
 });
 
-// Tentativa de conexão
+// TENTATIVA DE CONEXÃO ÚNICA
 db.connect((err) => {
     if (err) {
         console.error('❌ ERRO CRÍTICO NO MYSQL:', err.message);
         return;
     }
-    console.log('✅ Conectado ao banco de dados MySQL no Aiven!');
+    console.log(`✅ Conectado ao banco ${process.env.DB_NAME} no Aiven!`);
 });
 
-// AQUI EMBAIXO CONTINUAM SUAS ROTAS (app.post, app.get, etc...)
-db.connect(err => {
-    if (err) {
-        console.error('❌ ERRO CRÍTICO NO MYSQL:', err.sqlMessage);
-    } else {
-        console.log('✅ Conectado ao banco "sustentatech_db" com sucesso!');
-        console.log("Tentando conectar ao banco:", process.env.DB_NAME);
-    }
-});
-
-// 2. ROTA DE CADASTRO (Agora com senha protegida)
+// 2. ROTA DE CADASTRO
 app.post('/cadastro', async (req, res) => {
     const { nome, email, senha } = req.body;
-    
     try {
-        // Transforma a senha em um código seguro (hash)
         const saltRounds = 10;
         const senhaCriptografada = await bcrypt.hash(senha, saltRounds);
 
@@ -61,11 +48,9 @@ app.post('/cadastro', async (req, res) => {
     }
 });
 
-// 3. ROTA DE LOGIN (Agora comparando a senha protegida)
+// 3. ROTA DE LOGIN
 app.post('/login', (req, res) => {
     const { email, senha } = req.body;
-    
-    // Buscamos apenas pelo e-mail
     const sql = "SELECT * FROM usuarios WHERE email = ?";
     
     db.query(sql, [email], async (err, results) => {
@@ -73,8 +58,6 @@ app.post('/login', (req, res) => {
         
         if (results.length > 0) {
             const usuario = results[0];
-            
-            // O bcrypt compara a senha que você digitou com o código do banco
             const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
 
             if (senhaCorreta) {
@@ -88,7 +71,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-// 4. ROTA DE PROJETOS (A QUE TINHA SUMIDO - ESTÁ AQUI!)
+// 4. ROTA DE PROJETOS
 app.get('/projetos', (req, res) => {
     const sql = "SELECT * FROM projetos"; 
     db.query(sql, (err, results) => {
@@ -97,6 +80,8 @@ app.get('/projetos', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('🚀 Servidor rodando em http://localhost:3000');
+// CORREÇÃO DA PORTA PARA O RENDER
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
