@@ -1,90 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/style.css" />
     <title>SustentaTech - Projetos</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <nav class="nav-bar">
-            <div class="logo">
-                <a href="index.html" class="nav-link">
-                    <span style="color: #ffff; font-weight: bold;">Sustenta</span>
-                    <span style="color: #1e8449; font-weight: bold;">Tech</span>
-                </a>
-            </div>
+      <nav class="nav-bar">
+        <div class="logo">
+          <a href="index.html" class="nav-link">
+            <span style="color: #ffff; font-weight: bold">Sustenta</span>
+            <span style="color: #1e8449; font-weight: bold">Tech</span>
+          </a>
+        </div>
 
-            <div class="nav-list">
-                <ul>
-                    <li class="nav-item"><a href="index.html" class="nav-link">Início</a></li>
-                    <li class="nav-item"><a href="index.html#portfolio" class="nav-link">Projetos</a></li>
-                    <li class="nav-item"><a href="sobre.html" class="nav-link">Sobre</a></li>
-                </ul>
-            </div>
+        <div class="nav-list">
+          <ul>
+            <li class="nav-item">
+              <a href="index.html" class="nav-link">Início</a>
+            </li>
+            <li class="nav-item">
+              <a href="index.html#portfolio" class="nav-link">Projetos</a>
+            </li>
+            <li class="nav-item">
+              <a href="sobre.html" class="nav-link">Sobre</a>
+            </li>
+          </ul>
+        </div>
 
-            <div class="login-button">
-                <button><a href="entrar.html">Entrar</a></button>
-            </div>
+        <div class="login-button">
+          <button><a href="entrar.html">Entrar</a></button>
+        </div>
 
-            <div class="theme-toggle">
-                <button id="toggleMode" aria-label="Alternar modo claro/escuro">🌙</button>
-            </div>
-        </nav>
+        <div class="theme-toggle">
+          <button id="toggleMode" aria-label="Alternar modo claro/escuro">
+            🌙
+          </button>
+        </div>
+      </nav>
     </header>
 
     <main>
-        <div class="slider">
-            <div class="slide">
-                <input type="radio" name="radio-btn" id="radio1" checked>
-                <input type="radio" name="radio-btn" id="radio2">
-                <input type="radio" name="radio-btn" id="radio3">
-                <input type="radio" name="radio-btn" id="radio4">
+      <div class="slider">
+        <div class="slide">
+          <input type="radio" name="radio-btn" id="radio1" checked />
+          <input type="radio" name="radio-btn" id="radio2" />
+          <input type="radio" name="radio-btn" id="radio3" />
+          <input type="radio" name="radio-btn" id="radio4" />
 
-                <div class="first">
-                    <img src="assets/img/sustentaTHUMB.png" alt="Imagem 1">
-                    <img src="assets/img/thumbSUSTENTA2.png" alt="Imagem 2">
-                    <img src="assets/img/thumbSOLAR.png" alt="Imagem 3">
-                    <img src="assets/img/thumbRECICLA.png" alt="Imagem 4">
-                </div>
-            </div>
-            <div class="manual-navigation">
-                <label for="radio1" class="manual-btn"></label>
-                <label for="radio2" class="manual-btn"></label>
-                <label for="radio3" class="manual-btn"></label>
-                <label for="radio4" class="manual-btn"></label>
-            </div>
+          <div class="first">
+            <img src="assets/img/sustentaTHUMB.png" alt="Imagem 1" />
+            <img src="assets/img/thumbSUSTENTA2.png" alt="Imagem 2" />
+            <img src="assets/img/thumbSOLAR.png" alt="Imagem 3" />
+            <img src="assets/img/thumbRECICLA.png" alt="Imagem 4" />
+          </div>
         </div>
+        <div class="manual-navigation">
+          <label for="radio1" class="manual-btn"></label>
+          <label for="radio2" class="manual-btn"></label>
+          <label for="radio3" class="manual-btn"></label>
+          <label for="radio4" class="manual-btn"></label>
+        </div>
+      </div>
 
-        <section class="portfolio" id="portfolio">
-            <h2>Nossos Projetos</h2>
-            <p>Conheça as iniciativas que buscam um futuro mais verde.</p>
-            
-            <div id="container-projetos" class="portfolio-container">
-                <p>Carregando projetos do banco de dados...</p>
-            </div>
-        </section>
+      <section class="portfolio" id="portfolio">
+        <h2>Nossos Projetos</h2>
+        <p>Conheça as iniciativas que buscam um futuro mais verde.</p>
+
+        <div id="container-projetos" class="portfolio-container">
+          <p>Carregando projetos do banco de dados...</p>
+        </div>
+      </section>
     </main>
 
     <footer>
-        <div class="interface">
-            <section class="line-footer1">
-                <h2>Gostaria de receber notícias sobre o SustentaTech?</h2>
-                <form>
-                    <input type="email" placeholder="Digite seu e-mail">
-                    <input type="submit" value="Cadastrar">
-                </form>
-            </section>
-            <section class="line-footer3">
-                <p>SustentaTech &copy; Todos os direitos Reservados!</p>
-            </section>
-        </div>
+      <div class="interface">
+        <section class="line-footer1">
+          <h2>Gostaria de receber notícias sobre o SustentaTech?</h2>
+          <form id="newsletter-form">
+            <input
+              type="email"
+              id="newsletter-email"
+              placeholder="Digite seu e-mail"
+              required
+            />
+            <input type="submit" value="Cadastrar" />
+          </form>
+          <p id="newsletter-message"></p>
+        </section>
+        <section class="line-footer3">
+          <p>SustentaTech &copy; Todos os direitos Reservados!</p>
+        </section>
+      </div>
     </footer>
 
     <script src="assets/js/darkmode.js"></script>
     <script src="assets/js/carrossel.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/script.js"></script>
-</body>
+  </body>
 </html>

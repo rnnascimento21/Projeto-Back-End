@@ -86,7 +86,14 @@ header {
 
 @media screen and (max-width: 730px) {
   .search {
-    display: none;
+    display: block;
+    margin: 0.7rem 0 0;
+    width: 100%;
+    order: 5;
+  }
+
+  .search input {
+    width: 100%;
   }
 }
 
@@ -114,6 +121,7 @@ header {
 @media screen and (max-width: 730px) {
   .nav-bar {
     padding: 1.5rem 4rem;
+    flex-wrap: wrap;
   }
   .nav-item {
     display: none;
@@ -275,6 +283,13 @@ input[type="email"] {
   border: 1px solid #ccc; /* Borda cinza clara */
   border-radius: 6px; /* Bordas arredondadas */
 }
+
+#newsletter-message {
+  margin-top: 10px;
+  min-height: 18px;
+  font-size: 14px;
+}
+
 button {
   padding: 0.6rem; /* Espaçamento interno */
   border-radius: 6px; /* Bordas arredondadas */
@@ -480,8 +495,8 @@ body.dark-mode .newsletter-header {
   color: #dbe5f0;
 }
 
-body.dark-mode input[type="email"],
-body.dark-mode button {
+body.dark-mode .line-footer1 input[type="email"],
+body.dark-mode .site-footer .line-footer1 input[type="email"] {
   border-color: #556077;
   background-color: #374458;
   color: #e8eff8;
@@ -658,8 +673,12 @@ body.dark-mode .theme-toggle button {
 }
 
 .login-card .subtext button {
+  background: transparent;
+  border: none;
+  padding: 0;
   color: #1e8449;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .login-card .social-notice {
@@ -674,6 +693,41 @@ body.dark-mode .theme-toggle button {
   }
 }
 
+body.dark-mode .login-page {
+  background: linear-gradient(120deg, #222b31 0%, #1c242c 100%);
+}
+
+body.dark-mode .login-card {
+  background-color: #2e3742;
+  border-color: #4d5a69;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode .login-card p,
+body.dark-mode .login-card .social-notice,
+body.dark-mode .login-card .subtext {
+  color: #c4d0de;
+}
+
+body.dark-mode .login-card .form-group label {
+  color: #d8e3ef;
+}
+
+body.dark-mode .login-card .form-group input {
+  background-color: #1f2937;
+  border-color: #55657a;
+  color: #e6eef8;
+}
+
+body.dark-mode .login-card .form-group input::placeholder {
+  color: #9fb0c4;
+}
+
+body.dark-mode .login-card .subtext button {
+  background: transparent;
+  color: #34d399;
+}
+
 .portfolio-item p {
   font-size: 0.95rem;
   color: #444;
@@ -681,45 +735,197 @@ body.dark-mode .theme-toggle button {
 }
 /* Container que segura todos os cards */
 .flex {
-    display: flex;
-    flex-wrap: wrap; /* Faz os cards irem para a linha de baixo se não couberem */
-    gap: 20px;       /* Espaço entre um card e outro */
-    justify-content: center;
-    padding: 40px 0;
+  display: flex;
+  flex-wrap: wrap; /* Faz os cards irem para a linha de baixo se não couberem */
+  gap: 20px; /* Espaço entre um card e outro */
+  justify-content: center;
+  padding: 40px 0;
 }
 
 /* Estilo de cada Card individual */
 .projeto-card {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 15px;
-    padding: 20px;
-    width: 320px;      /* Define a largura fixa do card */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    text-align: center;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 20px;
+  width: 320px; /* Define a largura fixa do card */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  text-align: center;
 }
 
 .projeto-card:hover {
-    transform: translateY(-10px); /* Efeito de flutuar ao passar o mouse */
+  transform: translateY(-10px); /* Efeito de flutuar ao passar o mouse */
 }
 
 /* Ajuste da Imagem (Para ela não ficar gigante!) */
 .projeto-card img {
-    width: 100%;       /* Ocupa a largura total do card (320px) */
-    height: 200px;     /* Altura fixa para todas as imagens ficarem iguais */
-    object-fit: cover; /* Corta a imagem sem distorcer se for grande demais */
-    border-radius: 10px;
-    margin-bottom: 15px;
+  width: 100%; /* Ocupa a largura total do card (320px) */
+  height: 200px; /* Altura fixa para todas as imagens ficarem iguais */
+  object-fit: cover; /* Corta a imagem sem distorcer se for grande demais */
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 .projeto-card h3 {
-    color: #1e8449;
-    margin-bottom: 10px;
+  color: #1e8449;
+  margin-bottom: 10px;
 }
 
 .projeto-card p {
-    color: #666;
-    font-size: 0.9rem;
-    line-height: 1.4;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* ======== SOBRE ======== */
+.about-page {
+  background: linear-gradient(180deg, #f6fbf7 0%, #edf7f0 100%);
+  padding: 3.5rem 1.5rem 4rem;
+}
+
+.about-hero {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  text-align: center;
+}
+
+.about-kicker {
+  color: #1e8449;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.about-hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: #163a26;
+  margin-bottom: 0.8rem;
+}
+
+.about-hero p {
+  color: #3e5b4a;
+  font-size: 1.05rem;
+}
+
+.about-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.about-card {
+  background-color: #ffffff;
+  border: 1px solid #d8eadc;
+  border-radius: 14px;
+  padding: 1.3rem;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.06);
+}
+
+.about-card h2 {
+  color: #1e8449;
+  margin-bottom: 0.5rem;
+}
+
+.about-card p {
+  color: #4a5f52;
+  line-height: 1.6;
+}
+
+/* ======== RODAPE ======== */
+.site-footer {
+  background: #1f2327;
+  color: #f1f4f7;
+  padding: 3rem 1.2rem 1.5rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1.4rem;
+  align-items: start;
+}
+
+.site-footer h2,
+.site-footer h3 {
+  margin-bottom: 0.55rem;
+  color: #ffffff;
+}
+
+.site-footer p,
+.site-footer a {
+  color: #d7dde5;
+  text-decoration: none;
+}
+
+.site-footer .line-footer1 p {
+  margin-bottom: 0.6rem;
+}
+
+.site-footer .line-footer1 form {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.site-footer .line-footer1 input[type="email"] {
+  flex: 1;
+  min-width: 220px;
+}
+
+.site-footer .line-footer1 input[type="submit"] {
+  border: none;
+  border-radius: 6px;
+  padding: 0.62rem 1rem;
+  background-color: #1e8449;
+  color: #fff;
+  cursor: pointer;
+}
+
+.links-footer {
+  list-style: none;
+  padding: 0;
+}
+
+.links-footer li {
+  margin-bottom: 0.45rem;
+}
+
+.line-footer3 {
+  margin-top: 1.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 0.9rem;
+}
+
+body.dark-mode .about-page {
+  background: linear-gradient(180deg, #242a32 0%, #2a313a 100%);
+}
+
+body.dark-mode .about-hero h1 {
+  color: #eaf2f8;
+}
+
+body.dark-mode .about-hero p,
+body.dark-mode .about-card p {
+  color: #c7d3df;
+}
+
+body.dark-mode .about-card {
+  background-color: #33404d;
+  border-color: #4a5664;
+}
+
+@media screen and (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
 }
