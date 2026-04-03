@@ -1,15 +1,17 @@
 require("dotenv").config();
-
 const express = require("express");
 const mysql = require("mysql2");
-const cors = require("cors");
+const cors = require("cors"); // Importado apenas uma vez
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const path = require("path");
 
 const app = express();
-app.use(cors());
+
+// --- CONFIGURAÇÃO DO CORS (LIBERA O GITHUB PAGES) ---
+app.use(cors()); 
+
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
@@ -40,7 +42,7 @@ const emailTransporter = nodemailer.createTransport(
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  password: process.env.DB_PASS, // ✅ CORRIGIDO AQUI
+  password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT || 14505,
   ssl: {
@@ -48,7 +50,7 @@ const db = mysql.createConnection({
   },
 });
 
-// TENTATIVA DE CONEXÃO ÚNICA
+// TENTATIVA DE CONEXÃO
 db.connect((err) => {
   if (err) {
     console.error("❌ ERRO CRÍTICO NO MYSQL:", err.message);
@@ -86,10 +88,7 @@ function inicializarBanco() {
     }
     db.query(sqlProjetos, (errProjetos) => {
       if (errProjetos) {
-        console.error(
-          "❌ Erro ao garantir tabela projetos:",
-          errProjetos.message,
-        );
+        console.error("❌ Erro ao garantir tabela projetos:", errProjetos.message);
         return;
       }
       console.log("✅ Tabelas essenciais verificadas com sucesso.");
@@ -100,23 +99,17 @@ function inicializarBanco() {
 // 2. ROTA DE CADASTRO
 app.post("/cadastro", async (req, res) => {
   const { nome, email, senha } = req.body;
-
   if (!nome || !email || !senha) {
     return res.status(400).json({ mensagem: "Preencha nome, e-mail e senha." });
   }
-
   try {
     const saltRounds = 10;
     const senhaCriptografada = await bcrypt.hash(senha, saltRounds);
-
     const sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";
     db.query(sql, [nome, email, senhaCriptografada], (err, result) => {
       if (err) {
-          console.error("Erro SQL /cadastro:", err.message);
         if (err.code === "ER_DUP_ENTRY") {
-          return res
-            .status(409)
-            .json({ mensagem: "Este e-mail já está cadastrado." });
+          return res.status(409).json({ mensagem: "Este e-mail já está cadastrado." });
         }
         return res.status(500).json({ mensagem: "Erro ao cadastrar usuário." });
       }
@@ -130,67 +123,41 @@ app.post("/cadastro", async (req, res) => {
 // 3. ROTA DE LOGIN
 app.post("/login", (req, res) => {
   const { email, senha } = req.body;
-
-  if (!email || !senha) {
-    return res.status(400).json({ mensagem: "Informe e-mail e senha." });
-  }
-
   const sql = "SELECT * FROM usuarios WHERE email = ?";
-
   db.query(sql, [email], async (err, results) => {
-    if (err) {
-      console.error("Erro SQL /login:", err.message);
-      return res.status(500).json({ mensagem: "Erro no servidor" });
+    if (err || results.length === 0) {
+      return res.status(401).json({ mensagem: "E-mail ou senha incorretos!" });
     }
-
-    if (results.length > 0) {
-      const usuario = results[0];
-      const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
-
-      if (senhaCorreta) {
-        res.json({ mensagem: "Login autorizado!", usuario: usuario.nome });
-      } else {
-        res.status(401).json({ mensagem: "E-mail ou senha incorretos!" });
-      }
+    const usuario = results[0];
+    const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+    if (senhaCorreta) {
+      res.json({ mensagem: "Login autorizado!", usuario: usuario.nome });
     } else {
       res.status(401).json({ mensagem: "E-mail ou senha incorretos!" });
     }
   });
 });
 
-// ROTA DE PROJETOS (com busca opcional)
+// ROTA DE PROJETOS
 app.get("/projetos", (req, res) => {
   const termoBusca = (req.query.q || "").trim();
-  const temBusca = termoBusca.length > 0;
-
-  const sql = temBusca
-    ? "SELECT * FROM projetos WHERE titulo LIKE ? OR descricao LIKE ?"
+  const sql = termoBusca 
+    ? "SELECT * FROM projetos WHERE titulo LIKE ? OR descricao LIKE ?" 
     : "SELECT * FROM projetos";
-  const params = temBusca
-    ? [`%${termoBusca}%`, `%${termoBusca}%`]
-    : [];
+  const params = termoBusca ? [`%${termoBusca}%`, `%${termoBusca}%`] : [];
 
   db.query(sql, params, (err, results) => {
-    if (err)
-      return res.status(500).json({ mensagem: "Erro ao buscar projetos" });
+    if (err) return res.status(500).json({ mensagem: "Erro ao buscar projetos" });
     res.json(results);
   });
 });
 
-// ROTA DE BUSCA (alias)
+// ROTA DE BUSCA (Alias)
 app.get("/projetos/busca", (req, res) => {
   const termoBusca = (req.query.q || "").trim();
-
-  if (!termoBusca) {
-    return res.status(400).json({ mensagem: "Informe um termo de busca." });
-  }
-
   const sql = "SELECT * FROM projetos WHERE titulo LIKE ? OR descricao LIKE ?";
-  const params = [`%${termoBusca}%`, `%${termoBusca}%`];
-
-  db.query(sql, params, (err, results) => {
-    if (err)
-      return res.status(500).json({ mensagem: "Erro ao buscar projetos" });
+  db.query(sql, [`%${termoBusca}%`, `%${termoBusca}%`], (err, results) => {
+    if (err) return res.status(500).json({ mensagem: "Erro ao buscar projetos" });
     res.json(results);
   });
 });
@@ -198,45 +165,26 @@ app.get("/projetos/busca", (req, res) => {
 // ROTA DE NEWSLETTER
 app.post("/newsletter", async (req, res) => {
   const { email } = req.body;
-
   if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
     return res.status(400).json({ mensagem: "E-mail inválido." });
   }
-
-  if (!process.env.MAIL_USER || !process.env.MAIL_PASS) {
-    return res
-      .status(500)
-      .json({ mensagem: "Configuração de e-mail não encontrada no servidor." });
-  }
-
   try {
     await emailTransporter.sendMail({
-      from:
-        process.env.MAIL_FROM || `"SustentaTech" <${process.env.MAIL_USER}>`,
+      from: process.env.MAIL_FROM || `"SustentaTech" <${process.env.MAIL_USER}>`,
       to: email,
       subject: "Bem-vindo(a) à newsletter da SustentaTech!",
-      html: `
-        <h2>Cadastro confirmado ✅</h2>
-        <p>Olá! Seu e-mail foi cadastrado para receber notícias da SustentaTech.</p>
-        <p>Você começará a receber novidades sobre projetos sustentáveis em breve.</p>
-      `,
+      html: `<h2>Cadastro confirmado ✅</h2><p>Olá! Seu e-mail foi cadastrado.</p>`,
     });
-
     return res.json({ mensagem: "E-mail enviado com sucesso!" });
   } catch (error) {
-    console.error("Erro ao enviar e-mail da newsletter:", error.message);
-    return res
-      .status(500)
-      .json({ mensagem: "Não foi possível enviar o e-mail agora." });
+    return res.status(500).json({ mensagem: "Erro ao enviar e-mail." });
   }
 });
 
-// ROTA PRINCIPAL DO FRONT-END
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// SERVIDOR
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);

@@ -1,4 +1,4 @@
-// 1. Função para o Menu Mobile
+// 1. Função para o Menu Mobile (SEM ALTERAÇÕES)
 function menuShow() {
     const menuMobile = document.querySelector(".mobile-menu");
     const icon = document.querySelector(".icon");
@@ -14,17 +14,15 @@ function menuShow() {
     }
 }
 
- // 2. Função para carregar projetos do backend
+// 2. Função para carregar projetos do backend (ALTERADO O LINK)
 async function carregarProjetos() {
     const container = document.getElementById("container-projetos");
     if (!container) return;
 
     try {
-        const resposta = await fetch("/projetos");
-        
-        // --- A LINHA QUE FALTAVA ESTÁ AQUI EMBAIXO ---
+        // LINK CORRIGIDO: Apontando para a rota /projetos do Render
+        const resposta = await fetch("https://projeto-back-end-n8lm.onrender.com/projetos");
         const projetos = await resposta.json(); 
-        // --------------------------------------------
 
         container.innerHTML = "";
 
@@ -48,7 +46,7 @@ async function carregarProjetos() {
     }
 }
 
-// 2.1 Função para buscar projetos no backend
+// 2.1 Função para buscar projetos no backend (ALTERADO O LINK)
 async function buscarProjetos(termo) {
     const container = document.getElementById("container-projetos");
     if (!container) return;
@@ -61,8 +59,9 @@ async function buscarProjetos(termo) {
     }
 
     try {
+        // LINK CORRIGIDO: Adicionado /projetos/busca?q= antes do termo
         const resposta = await fetch(
-            `/projetos/busca?q=${encodeURIComponent(termoLimpo)}`,
+            `https://projeto-back-end-n8lm.onrender.com/projetos/busca?q=${encodeURIComponent(termoLimpo)}`,
         );
         const projetos = await resposta.json();
 
@@ -88,7 +87,7 @@ async function buscarProjetos(termo) {
     }
 }
 
-// 3. Função para cadastrar newsletter e enviar e-mail
+// 3. Função para cadastrar newsletter e enviar e-mail (ALTERADO O LINK)
 async function cadastrarNewsletter(event) {
     event.preventDefault();
 
@@ -106,7 +105,8 @@ async function cadastrarNewsletter(event) {
     }
 
     try {
-        const resposta = await fetch("/newsletter", {
+        // LINK CORRIGIDO: Adicionado /newsletter no final
+        const resposta = await fetch("https://projeto-back-end-n8lm.onrender.com/newsletter", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -133,7 +133,7 @@ async function cadastrarNewsletter(event) {
     }
 }
 
-// 4. Inicialização das funcionalidades
+// 4. Inicialização das funcionalidades (SEM ALTERAÇÕES)
 function inicializarPagina() {
     configurarBotaoAutenticacao();
     carregarProjetos();
@@ -153,6 +153,7 @@ function inicializarPagina() {
 
 document.addEventListener("DOMContentLoaded", inicializarPagina);
 
+// 5. Configurar Botão de Autenticação (SEM ALTERAÇÕES)
 function configurarBotaoAutenticacao() {
     const loginLink = document.querySelector(".login-button a");
     if (!loginLink) return;
