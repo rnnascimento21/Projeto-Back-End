@@ -55,8 +55,10 @@ authForm.addEventListener("submit", async (event) => {
     if (!nome) return alert("Por favor, digite seu nome.");
   }
 
-  // Usa o mesmo backend da aplicacao atual
-  const url = isCadastro ? "/cadastro" : "/login";
+  // --- ALTERAÇÃO AQUI: Link completo do Render para funcionar no GitHub Pages ---
+  const baseUrl = "https://projeto-back-end-n8lm.onrender.com";
+  const url = isCadastro ? `${baseUrl}/cadastro` : `${baseUrl}/login`;
+  // -----------------------------------------------------------------------------
 
   const corpoDados = isCadastro
     ? { nome, email, senha: password }
