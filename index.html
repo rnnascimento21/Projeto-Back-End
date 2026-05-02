@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <title>SustentaTech - Projetos</title>
   </head>
   <body>
@@ -35,6 +39,32 @@
 
         <div class="login-button">
           <button><a href="entrar.html">Entrar</a></button>
+        </div>
+
+        <!-- Painel do Usuário -->
+        <div class="user-panel" id="userPanel" style="display: none">
+          <button class="user-button" id="userButton">
+            <i class="fas fa-user"></i>
+            <span id="userName"></span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="perfil.html" class="user-option">
+              <i class="fas fa-user-circle"></i> Meu Perfil
+            </a>
+            <a href="#" class="user-option" id="changePasswordBtn">
+              <i class="fas fa-key"></i> Alterar Senha
+            </a>
+            <a href="#" class="user-option" id="changeEmailBtn">
+              <i class="fas fa-envelope"></i> Alterar E-mail
+            </a>
+            <a href="#" class="user-option">
+              <i class="fas fa-folder"></i> Meus Projetos
+            </a>
+            <a href="#" class="user-option" id="logoutBtn">
+              <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+          </div>
         </div>
 
         <div class="theme-toggle">
@@ -103,5 +133,6 @@
     <script src="assets/js/carrossel.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/user-panel.js"></script>
   </body>
 </html>

@@ -38,9 +38,35 @@
                       </ul>
                   </div>
 
-          <!--botão de login--> 
+          <!--botão de login-->
                   <div class="login-button">
                       <button><a href="entrar.html">Entrar</a></button>
+                  </div>
+
+                  <!-- Painel do Usuário -->
+                  <div class="user-panel" id="userPanel" style="display: none;">
+                    <button class="user-button" id="userButton">
+                      <i class="fas fa-user"></i>
+                      <span id="userName"></span>
+                      <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                      <a href="perfil.html" class="user-option">
+                        <i class="fas fa-user-circle"></i> Meu Perfil
+                      </a>
+                      <a href="#" class="user-option" id="changePasswordBtn">
+                        <i class="fas fa-key"></i> Alterar Senha
+                      </a>
+                      <a href="#" class="user-option" id="changeEmailBtn">
+                        <i class="fas fa-envelope"></i> Alterar E-mail
+                      </a>
+                      <a href="#" class="user-option">
+                        <i class="fas fa-folder"></i> Meus Projetos
+                      </a>
+                      <a href="#" class="user-option" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                      </a>
+                    </div>
                   </div>
 
                   <!-- Botão de tema -->
@@ -87,12 +113,24 @@
         <div class="interface">
           <section class="line-footer1">
             <h2> Gostaria de receber noticias sobre o SustentaTech?</h2>
-            <p> Inscreva-se em nossa newslattler e receba as principais noticias do mundo da Sustentabilidade em seu e-mail:</p>
+            <p>Inscreva-se em nossa newsletter e receba as principais notícias do mundo da Sustentabilidade em seu e-mail:</p>
             <form id="newsletter-form">
-              <input type="email" id="newsletter-email" placeholder="Digite seu e-mail">
+              <input type="email" id="newsletter-email" placeholder="Digite seu e-mail" required>
               <input type="submit" value="Cadastrar">
             </form>
             <p id="newsletter-message"></p>
+
+            <div class="newsletter-admin">
+              <h3>Enviar mensagem para assinantes</h3>
+              <p>Use esta área somente se você for administrador. Informe a chave secreta e o conteúdo.</p>
+              <form id="newsletter-send-form">
+                <input type="text" id="newsletter-subject" placeholder="Assunto da mensagem" required>
+                <textarea id="newsletter-body" placeholder="Corpo da mensagem HTML" required></textarea>
+                <input type="password" id="newsletter-key" placeholder="Chave secreta" required>
+                <button type="submit">Enviar para assinantes</button>
+              </form>
+              <p id="newsletter-send-message"></p>
+            </div>
           </section>
 
           <section class="line-foorter2">
@@ -139,5 +177,7 @@
       <script src="assets/js/carrossel.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
       <script src="assets/js/auth.js"></script>
+      <script src="assets/js/script.js"></script>
+      <script src="assets/js/user-panel.js"></script>
       </body>
       </html>

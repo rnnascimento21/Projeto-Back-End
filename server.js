@@ -10,7 +10,7 @@ const path = require("path");
 const app = express();
 
 // --- CONFIGURAÇÃO DO CORS (LIBERA O GITHUB PAGES) ---
-app.use(cors()); 
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
@@ -81,6 +81,14 @@ function inicializarBanco() {
     )
   `;
 
+  const sqlNewsletter = `
+    CREATE TABLE IF NOT EXISTS newsletter (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      email VARCHAR(190) NOT NULL UNIQUE,
+      criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `;
+
   db.query(sqlUsuarios, (err) => {
     if (err) {
       console.error("❌ Erro ao garantir tabela usuarios:", err.message);
@@ -88,10 +96,22 @@ function inicializarBanco() {
     }
     db.query(sqlProjetos, (errProjetos) => {
       if (errProjetos) {
-        console.error("❌ Erro ao garantir tabela projetos:", errProjetos.message);
+        console.error(
+          "❌ Erro ao garantir tabela projetos:",
+          errProjetos.message,
+        );
         return;
       }
-      console.log("✅ Tabelas essenciais verificadas com sucesso.");
+      db.query(sqlNewsletter, (errNewsletter) => {
+        if (errNewsletter) {
+          console.error(
+            "❌ Erro ao garantir tabela newsletter:",
+            errNewsletter.message,
+          );
+          return;
+        }
+        console.log("✅ Tabelas essenciais verificadas com sucesso.");
+      });
     });
   });
 }
@@ -109,7 +129,9 @@ app.post("/cadastro", async (req, res) => {
     db.query(sql, [nome, email, senhaCriptografada], (err, result) => {
       if (err) {
         if (err.code === "ER_DUP_ENTRY") {
-          return res.status(409).json({ mensagem: "Este e-mail já está cadastrado." });
+          return res
+            .status(409)
+            .json({ mensagem: "Este e-mail já está cadastrado." });
         }
         return res.status(500).json({ mensagem: "Erro ao cadastrar usuário." });
       }
@@ -141,13 +163,14 @@ app.post("/login", (req, res) => {
 // ROTA DE PROJETOS
 app.get("/projetos", (req, res) => {
   const termoBusca = (req.query.q || "").trim();
-  const sql = termoBusca 
-    ? "SELECT * FROM projetos WHERE titulo LIKE ? OR descricao LIKE ?" 
+  const sql = termoBusca
+    ? "SELECT * FROM projetos WHERE titulo LIKE ? OR descricao LIKE ?"
     : "SELECT * FROM projetos";
   const params = termoBusca ? [`%${termoBusca}%`, `%${termoBusca}%`] : [];
 
   db.query(sql, params, (err, results) => {
-    if (err) return res.status(500).json({ mensagem: "Erro ao buscar projetos" });
+    if (err)
+      return res.status(500).json({ mensagem: "Erro ao buscar projetos" });
     res.json(results);
   });
 });
@@ -157,8 +180,155 @@ app.get("/projetos/busca", (req, res) => {
   const termoBusca = (req.query.q || "").trim();
   const sql = "SELECT * FROM projetos WHERE titulo LIKE ? OR descricao LIKE ?";
   db.query(sql, [`%${termoBusca}%`, `%${termoBusca}%`], (err, results) => {
-    if (err) return res.status(500).json({ mensagem: "Erro ao buscar projetos" });
+    if (err)
+      return res.status(500).json({ mensagem: "Erro ao buscar projetos" });
     res.json(results);
+  });
+});
+
+// ROTA PARA ALTERAR SENHA
+app.post("/alterar-senha", async (req, res) => {
+  const { email, senhaAtual, novaSenha } = req.body;
+
+  if (!email || !senhaAtual || !novaSenha) {
+    return res.status(400).json({ mensagem: "Preencha todos os campos." });
+  }
+
+  if (novaSenha.length < 6) {
+    return res
+      .status(400)
+      .json({ mensagem: "A nova senha deve ter pelo menos 6 caracteres." });
+  }
+
+  try {
+    // Verificar se o usuário existe e a senha atual está correta
+    const sql = "SELECT * FROM usuarios WHERE email = ?";
+    db.query(sql, [email], async (err, results) => {
+      if (err || results.length === 0) {
+        return res.status(401).json({ mensagem: "Usuário não encontrado." });
+      }
+
+      const usuario = results[0];
+      const senhaCorreta = await bcrypt.compare(senhaAtual, usuario.senha);
+
+      if (!senhaCorreta) {
+        return res.status(401).json({ mensagem: "Senha atual incorreta." });
+      }
+
+      // Criptografar nova senha
+      const saltRounds = 10;
+      const novaSenhaCriptografada = await bcrypt.hash(novaSenha, saltRounds);
+
+      // Atualizar senha no banco
+      const updateSql = "UPDATE usuarios SET senha = ? WHERE email = ?";
+      db.query(
+        updateSql,
+        [novaSenhaCriptografada, email],
+        (updateErr, updateResult) => {
+          if (updateErr) {
+            return res
+              .status(500)
+              .json({ mensagem: "Erro ao atualizar senha." });
+          }
+          res.json({ mensagem: "Senha alterada com sucesso!" });
+        },
+      );
+    });
+  } catch (error) {
+    res.status(500).json({ mensagem: "Erro ao processar alteração de senha." });
+  }
+});
+
+// ROTA PARA ALTERAR EMAIL
+app.post("/alterar-email", async (req, res) => {
+  const { senhaAtual, novoEmail, nomeUsuario } = req.body;
+
+  if (!senhaAtual || !novoEmail || !nomeUsuario) {
+    return res.status(400).json({ mensagem: "Preencha todos os campos." });
+  }
+
+  if (!/^\S+@\S+\.\S+$/.test(novoEmail)) {
+    return res.status(400).json({ mensagem: "E-mail inválido." });
+  }
+
+  try {
+    // Verificar se o usuário existe e a senha está correta
+    const sql = "SELECT * FROM usuarios WHERE nome = ?";
+    db.query(sql, [nomeUsuario], async (err, results) => {
+      if (err || results.length === 0) {
+        return res.status(401).json({ mensagem: "Usuário não encontrado." });
+      }
+
+      const usuario = results[0];
+      const senhaCorreta = await bcrypt.compare(senhaAtual, usuario.senha);
+
+      if (!senhaCorreta) {
+        return res.status(401).json({ mensagem: "Senha atual incorreta." });
+      }
+
+      // Verificar se o novo email já está em uso
+      const checkEmailSql =
+        "SELECT * FROM usuarios WHERE email = ? AND nome != ?";
+      db.query(
+        checkEmailSql,
+        [novoEmail, nomeUsuario],
+        (checkErr, checkResults) => {
+          if (checkErr) {
+            return res
+              .status(500)
+              .json({ mensagem: "Erro ao verificar e-mail." });
+          }
+
+          if (checkResults.length > 0) {
+            return res
+              .status(409)
+              .json({ mensagem: "Este e-mail já está em uso." });
+          }
+
+          // Atualizar email no banco
+          const updateSql = "UPDATE usuarios SET email = ? WHERE nome = ?";
+          db.query(
+            updateSql,
+            [novoEmail, nomeUsuario],
+            (updateErr, updateResult) => {
+              if (updateErr) {
+                return res
+                  .status(500)
+                  .json({ mensagem: "Erro ao atualizar e-mail." });
+              }
+              res.json({ mensagem: "E-mail alterado com sucesso!" });
+            },
+          );
+        },
+      );
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ mensagem: "Erro ao processar alteração de e-mail." });
+  }
+});
+
+app.post("/alterar-nome", async (req, res) => {
+  const { email, novoNome } = req.body;
+
+  if (!email || !novoNome) {
+    return res.status(400).json({ mensagem: "Preencha e-mail e novo nome." });
+  }
+
+  const sql = "SELECT * FROM usuarios WHERE email = ?";
+  db.query(sql, [email], (err, results) => {
+    if (err || results.length === 0) {
+      return res.status(404).json({ mensagem: "Usuário não encontrado." });
+    }
+
+    const updateSql = "UPDATE usuarios SET nome = ? WHERE email = ?";
+    db.query(updateSql, [novoNome, email], (updateErr) => {
+      if (updateErr) {
+        return res.status(500).json({ mensagem: "Erro ao atualizar nome." });
+      }
+      res.json({ mensagem: "Nome alterado com sucesso!" });
+    });
   });
 });
 
@@ -168,17 +338,81 @@ app.post("/newsletter", async (req, res) => {
   if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
     return res.status(400).json({ mensagem: "E-mail inválido." });
   }
-  try {
-    await emailTransporter.sendMail({
-      from: process.env.MAIL_FROM || `"SustentaTech" <${process.env.MAIL_USER}>`,
-      to: email,
-      subject: "Bem-vindo(a) à newsletter da SustentaTech!",
-      html: `<h2>Cadastro confirmado ✅</h2><p>Olá! Seu e-mail foi cadastrado.</p>`,
-    });
-    return res.json({ mensagem: "E-mail enviado com sucesso!" });
-  } catch (error) {
-    return res.status(500).json({ mensagem: "Erro ao enviar e-mail." });
+
+  const insertSql = "INSERT INTO newsletter (email) VALUES (?)";
+  db.query(insertSql, [email], async (err) => {
+    if (err) {
+      if (err.code !== "ER_DUP_ENTRY") {
+        return res
+          .status(500)
+          .json({ mensagem: "Erro ao cadastrar newsletter." });
+      }
+    }
+
+    try {
+      await emailTransporter.sendMail({
+        from:
+          process.env.MAIL_FROM || `"SustentaTech" <${process.env.MAIL_USER}>`,
+        to: email,
+        subject: "Bem-vindo(a) à newsletter da SustentaTech!",
+        html: `
+          <h2>Cadastro confirmado ✅</h2>
+          <p>Olá! Seu e-mail foi cadastrado na newsletter da SustentaTech.</p>
+          <p>Você receberá novidades sobre projetos, dicas e ações sustentáveis.</p>
+        `,
+      });
+      return res.json({ mensagem: "E-mail enviado com sucesso!" });
+    } catch (error) {
+      return res.status(500).json({ mensagem: "Erro ao enviar e-mail." });
+    }
+  });
+});
+
+app.post("/newsletter/send", async (req, res) => {
+  const { subject, html, key } = req.body;
+  const newsletterKey = process.env.NEWSLETTER_KEY;
+
+  if (!newsletterKey || key !== newsletterKey) {
+    return res.status(401).json({ mensagem: "Chave de newsletter inválida." });
   }
+
+  if (!subject || !html) {
+    return res
+      .status(400)
+      .json({ mensagem: "Assunto e conteúdo são obrigatórios." });
+  }
+
+  const selectSql = "SELECT email FROM newsletter";
+  db.query(selectSql, async (err, results) => {
+    if (err) {
+      return res.status(500).json({ mensagem: "Erro ao buscar assinantes." });
+    }
+
+    const emails = results.map((row) => row.email);
+    if (emails.length === 0) {
+      return res.status(200).json({ mensagem: "Nenhum assinante encontrado." });
+    }
+
+    try {
+      for (const email of emails) {
+        await emailTransporter.sendMail({
+          from:
+            process.env.MAIL_FROM ||
+            `"SustentaTech" <${process.env.MAIL_USER}>`,
+          to: email,
+          subject,
+          html,
+        });
+      }
+      return res.json({
+        mensagem: "Newsletter enviada para todos os assinantes.",
+        total: emails.length,
+      });
+    } catch (error) {
+      console.error("Erro ao enviar newsletter:", error);
+      return res.status(500).json({ mensagem: "Erro ao enviar newsletter." });
+    }
+  });
 });
 
 app.get("/", (req, res) => {
