@@ -2,11 +2,6 @@ const authForm = document.getElementById("auth-form");
 const nameField = document.getElementById("name-field");
 const submitBtn = document.getElementById("submit-btn");
 const toggleBtn = document.getElementById("toggle-btn");
-<<<<<<< HEAD
-=======
-const codigoField = document.getElementById("codigo-field");
-const codigoInput = document.getElementById("codigo");
->>>>>>> origin/daniel-ajustes
 
 configurarBotaoAutenticacao();
 
@@ -60,7 +55,6 @@ authForm.addEventListener("submit", async (event) => {
     if (!nome) return alert("Por favor, digite seu nome.");
   }
 
-<<<<<<< HEAD
   // --- ALTERAÇÃO AQUI: Link completo do Render para funcionar no GitHub Pages ---
   const baseUrl = "https://projeto-back-end-n8lm.onrender.com";
   const url = isCadastro ? `${baseUrl}/cadastro` : `${baseUrl}/login`;
@@ -73,29 +67,6 @@ authForm.addEventListener("submit", async (event) => {
   try {
     console.log(`Tentando enviar para: ${url}`);
 
-=======
-  const baseUrl = "http://localhost:3000";
-
-  let url;
-  if (isCadastro && codigoField.classList.contains("hidden")) {
-    url = `${baseUrl}/cadastro`;
-  } else if (isCadastro && !codigoField.classList.contains("hidden")) {
-    url = `${baseUrl}/verificar-cadastro`;
-  } else {
-    url = `${baseUrl}/login`;
-  }
-
-  let corpoDados;
-  if (isCadastro && codigoField.classList.contains("hidden")) {
-    corpoDados = { nome, email, senha: password };
-  } else if (isCadastro && !codigoField.classList.contains("hidden")) {
-    corpoDados = { email, codigo: codigoInput.value };
-  } else {
-    corpoDados = { email, senha: password };
-  }
-
-  try {
->>>>>>> origin/daniel-ajustes
     const resposta = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -105,7 +76,6 @@ authForm.addEventListener("submit", async (event) => {
     const dados = await resposta.json();
 
     if (resposta.ok) {
-<<<<<<< HEAD
       alert(
         isCadastro ? "Cadastrado com sucesso!" : "Bem-vindo, " + dados.usuario,
       );
@@ -118,36 +88,8 @@ authForm.addEventListener("submit", async (event) => {
     } else {
       alert(dados.mensagem || "Nao foi possivel concluir a operacao.");
     }
-=======
-
-      if (isCadastro && dados.precisaVerificar) {
-        alert("Código enviado para o seu e-mail!");
-
-        codigoField.classList.remove("hidden");
-        submitBtn.innerText = "Verificar Código";
-        return;
-      }
-
-      if (!isCadastro) {
-        localStorage.setItem("usuarioNome", dados.usuario);
-        window.location.href = "index.html";
-        return;
-      }
-
-      alert("Cadastro concluído com sucesso!");
-      toggleBtn.click();
-      return;
-    }
-
-    alert(dados.mensagem || "Erro na operação");
-
->>>>>>> origin/daniel-ajustes
   } catch (erro) {
     console.error("Erro na requisição:", erro);
     alert("Erro ao conectar com o servidor.");
   }
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> origin/daniel-ajustes
