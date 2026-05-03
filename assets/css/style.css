@@ -16,7 +16,10 @@ header {
 .nav-bar {
   display: flex;
   justify-content: space-between;
-  padding: 1.5rem 6rem;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
 }
 .logo {
   display: flex;
@@ -97,18 +100,20 @@ header {
   }
 }
 
-.login-button button {
+.login-button button,
+.login-button a {
   border: none;
   background-color: #1e8449;
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
-}
-.login-button button a {
   text-decoration: none;
   color: #fff;
   font-size: 1.1rem;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Estilos do Painel de Usuário */
@@ -160,6 +165,38 @@ header {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+
+body.dark-mode .user-dropdown {
+  background-color: #2e3742;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
+}
+
+body.dark-mode .user-button {
+  background-color: #2e3742;
+  color: #eef2ff;
+}
+
+body.dark-mode .user-button:hover {
+  background-color: #263141;
+}
+
+body.dark-mode .user-option {
+  color: #d6dbe3;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .user-option:hover {
+  background-color: #33435b;
+  color: #a3c1d9;
+}
+
+body.dark-mode .user-option i {
+  color: #9ab1c9;
+}
+
+body.dark-mode .user-option:hover i {
+  color: #a3c1d9;
 }
 
 .user-option {
@@ -340,8 +377,10 @@ header {
     display: block;
     padding: 1.2rem;
   }
-  .mobile-menu .login-button button {
+  .mobile-menu .login-button a {
     width: 100%;
+    display: inline-flex;
+    justify-content: center;
   }
   .open {
     display: block;
@@ -655,7 +694,7 @@ body.dark-mode .nav-bar {
 
 body.dark-mode .logo h1,
 body.dark-mode .nav-link,
-body.dark-mode .login-button button a,
+body.dark-mode .login-button a,
 body.dark-mode .theme-toggle button,
 body.dark-mode .newsletter,
 body.dark-mode .sobre-container,
@@ -667,7 +706,7 @@ body.dark-mode .manual-navigation,
 body.dark-mode .portfolio-item,
 body.dark-mode .newsletter-header,
 body.dark-mode .line-footer1,
-body.dark-mode .line-foorter2,
+body.dark-mode .line-footer2,
 body.dark-mode .line-footer3,
 body.dark-mode .interface,
 body.dark-mode footer {
@@ -715,11 +754,11 @@ body.dark-mode .site-footer .line-footer1 input[type="email"] {
 }
 
 body.dark-mode .nav-link,
-body.dark-mode .login-button button a {
+body.dark-mode .login-button a {
   color: #e1e8f2;
 }
 
-body.dark-mode .login-button button {
+body.dark-mode .login-button a {
   background-color: #4a5669;
   color: #ffffff;
 }
@@ -731,7 +770,7 @@ body.dark-mode .mobile-menu-icon button {
   background-color: #313a49;
 }
 
-body.dark-mode .login-button button {
+body.dark-mode .login-button a {
   background-color: #1f5c4d;
   color: #ffffff;
 }
@@ -863,7 +902,7 @@ body.dark-mode .theme-toggle button {
   box-shadow: 0 0 0 2px rgba(30, 132, 73, 0.18);
 }
 
-..login-card button[type="submit"] {
+.login-card button[type="submit"] {
   width: 100%;
   background-color: #1e8449;
   color: #fff;
@@ -980,12 +1019,18 @@ body.dark-mode .theme-toggle button {
 }
 
 body.dark-mode .profile-page {
-  background-color: #2f343d;
+  background: linear-gradient(120deg, #222b31 0%, #1c242c 100%);
+}
+
+.profile-page {
+  max-width: 1180px;
+  margin: 0 auto;
 }
 
 body.dark-mode .profile-card {
-  background-color: #1f2937;
-  border-color: rgba(71, 85, 105, 0.25);
+  background-color: #2e3742;
+  border-color: #4d5a69;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
 }
 
 body.dark-mode .profile-card h1,

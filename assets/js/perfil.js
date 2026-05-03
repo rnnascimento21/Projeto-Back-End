@@ -1,8 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const currentName =
-    localStorage.getItem("nomeUsuario") || localStorage.getItem("usuarioNome");
-  const currentEmail =
-    localStorage.getItem("emailUsuario") || localStorage.getItem("usuarioEmail");
+  // Padronizando para apenas uma chave de busca
+  const currentName = localStorage.getItem("usuarioNome");
+  const currentEmail = localStorage.getItem("usuarioEmail");
+
+  // ... restante do código ...
+
+  // No sucesso do fetch, salve apenas em uma chave:
+  localStorage.setItem("usuarioNome", newName);
 
   const welcome = document.getElementById("profile-welcome");
   const currentNameInput = document.getElementById("currentName");
@@ -58,10 +62,18 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("nomeUsuario", newName);
         localStorage.setItem("usuarioNome", newName);
         if (currentNameInput) currentNameInput.value = newName;
-        if (welcome) welcome.textContent = `Olá, ${newName}! Atualize seus dados abaixo.`;
-        showMessage("name-message", data.mensagem || "Nome atualizado com sucesso.");
+        if (welcome)
+          welcome.textContent = `Olá, ${newName}! Atualize seus dados abaixo.`;
+        showMessage(
+          "name-message",
+          data.mensagem || "Nome atualizado com sucesso.",
+        );
       } else {
-        showMessage("name-message", data.mensagem || "Erro ao atualizar nome.", false);
+        showMessage(
+          "name-message",
+          data.mensagem || "Erro ao atualizar nome.",
+          false,
+        );
       }
     } catch (error) {
       console.error(error);
@@ -96,9 +108,16 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("emailUsuario", newEmail);
         localStorage.setItem("usuarioEmail", newEmail);
         if (currentEmailInput) currentEmailInput.value = newEmail;
-        showMessage("email-message", data.mensagem || "E-mail atualizado com sucesso.");
+        showMessage(
+          "email-message",
+          data.mensagem || "E-mail atualizado com sucesso.",
+        );
       } else {
-        showMessage("email-message", data.mensagem || "Erro ao atualizar e-mail.", false);
+        showMessage(
+          "email-message",
+          data.mensagem || "Erro ao atualizar e-mail.",
+          false,
+        );
       }
     } catch (error) {
       console.error(error);
@@ -108,9 +127,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   passwordForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const currentPassword = document.getElementById("currentPassword").value.trim();
+    const currentPassword = document
+      .getElementById("currentPassword")
+      .value.trim();
     const newPassword = document.getElementById("newPassword").value.trim();
-    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+    const confirmPassword = document
+      .getElementById("confirmPassword")
+      .value.trim();
 
     if (!currentPassword || !newPassword || !confirmPassword) {
       showMessage("password-message", "Preencha todos os campos.", false);
@@ -137,12 +160,19 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       const data = await response.json();
       if (response.ok) {
-        showMessage("password-message", data.mensagem || "Senha atualizada com sucesso.");
+        showMessage(
+          "password-message",
+          data.mensagem || "Senha atualizada com sucesso.",
+        );
         document.getElementById("currentPassword").value = "";
         document.getElementById("newPassword").value = "";
         document.getElementById("confirmPassword").value = "";
       } else {
-        showMessage("password-message", data.mensagem || "Erro ao atualizar senha.", false);
+        showMessage(
+          "password-message",
+          data.mensagem || "Erro ao atualizar senha.",
+          false,
+        );
       }
     } catch (error) {
       console.error(error);
