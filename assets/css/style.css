@@ -5,6 +5,10 @@
   font-family: "Inter", sans-serif;
 }
 
+.hidden {
+  display: none !important;
+}
+
 header {
   background-color: #2ecc71;
   box-shadow: 0px 3px 10px #464646;

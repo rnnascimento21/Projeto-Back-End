@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SustentaTech | Auditoria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Relatório de Auditoria</h2>
+            <a href="index.html" class="btn btn-secondary">Voltar ao Início</a>
+        </div>
+        <div class="card shadow">
+            <div class="card-body">
+                <div id="auditoria-status" class="mb-3 text-muted">Carregando auditoria...</div>
+                <table class="table table-hover" id="auditoria-table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Perfil</th>
+                            <th>Data de Cadastro</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-logs"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = window.location.origin || 'https://projeto-back-end-n8lm.onrender.com';
+        
+        const status = document.getElementById('auditoria-status');
+        const tabela = document.getElementById('auditoria-table');
+
+        fetch(`${API_URL}/logs-auditoria`)
+            .then(res => res.json())
+            .then(data => {
+                const lista = document.getElementById('tabela-logs');
+                if (!Array.isArray(data) || data.length === 0) {
+                    status.textContent = "Nenhum registro de auditoria encontrado.";
+                    tabela.style.display = 'none';
+                    return;
+                }
+
+                status.textContent = "";
+                tabela.style.display = '';
+                lista.innerHTML = data.map(log => `
+                    <tr>
+                        <td>${log.nome}</td>
+                        <td>${log.email}</td>
+                        <td><span class="badge ${log.perfil === 'Master' ? 'bg-danger' : 'bg-primary'}">${log.perfil}</span></td>
+                        <td>${new Date(log.criado_em).toLocaleString('pt-BR')}</td>
+                    </tr>
+                `).join('');
+            })
+            .catch(err => {
+                console.error("Erro ao carregar auditoria:", err);
+                status.textContent = "Erro ao carregar auditoria.";
+                tabela.style.display = 'none';
+            });
+    </script>
+</body>
+</html>
