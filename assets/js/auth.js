@@ -4,6 +4,9 @@ const codeField = document.getElementById("code-field");
 const submitBtn = document.getElementById("submit-btn");
 const toggleBtn = document.getElementById("toggle-btn");
 
+// --- CONFIGURAÇÃO DA API (IGUAL AO SCRIPT.JS) ---
+const API_URL = "https://projeto-back-end-n8lm.onrender.com";
+
 let currentEmail = "";
 
 // Funções de interface
@@ -48,7 +51,8 @@ if (authForm) {
         // CASO 1: Verificação da Palavra-Passe (FASE 2 DO LOGIN)
         if (codeField && !codeField.classList.contains("hidden")) {
             try {
-                const resposta = await fetch("/verificar-login", {
+                // ADICIONADO API_URL ABAIXO
+                const resposta = await fetch(`${API_URL}/verificar-login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: currentEmail || email, codigo }),
@@ -56,9 +60,8 @@ if (authForm) {
                 const dados = await resposta.json();
                 
                 if (resposta.ok) {
-                    // --- CORREÇÃO AQUI: SALVANDO O PERFIL ---
                     localStorage.setItem("usuarioNome", dados.usuario);
-                    localStorage.setItem("perfil", dados.perfil); // ESSA LINHA FALTAVA
+                    localStorage.setItem("perfil", dados.perfil); 
                     window.location.href = "index.html";
                 } else {
                     alert(dados.mensagem);
@@ -76,7 +79,8 @@ if (authForm) {
             if (!segunda_senha) return alert("Defina uma palavra-passe!");
 
             try {
-                const resposta = await fetch("/cadastro", {
+                // ADICIONADO API_URL ABAIXO
+                const resposta = await fetch(`${API_URL}/cadastro`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ nome, email, senha: password, segunda_senha }),
@@ -95,7 +99,8 @@ if (authForm) {
         // CASO 3: Login Inicial (FASE 1)
         else {
             try {
-                const resposta = await fetch("/login", {
+                // ADICIONADO API_URL ABAIXO
+                const resposta = await fetch(`${API_URL}/login`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, senha: password }),
@@ -105,7 +110,7 @@ if (authForm) {
                 if (resposta.ok) {
                     if (dados.redirect) {
                         localStorage.setItem("usuarioNome", dados.usuario);
-                        localStorage.setItem("perfil", dados.perfil); // GARANTIA
+                        localStorage.setItem("perfil", dados.perfil);
                         window.location.href = "index.html";
                     } else if (dados.needsVerification) {
                         currentEmail = email;
