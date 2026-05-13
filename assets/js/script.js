@@ -13,8 +13,8 @@ function menuShow() {
     }
 }
 
-const API_URL = window.location.origin || "https://projeto-back-end-n8lm.onrender.com";
-
+// Remova o window.location.origin e deixe apenas o link do Render
+const API_URL = "https://projeto-back-end-n8lm.onrender.com";
 // 2. Carregar Projetos
 async function carregarProjetos() {
     const container = document.getElementById("container-projetos");
@@ -87,7 +87,7 @@ function configurarMenuUsuario() {
 
     if (usuarioNome && loginBtn) {
         loginBtn.textContent = "Sair";
-        loginBtn.onclick = () => { localStorage.clear(); location.href="index.html"; };
+        loginBtn.onclick = () => { localStorage.clear(); location.href = "index.html"; };
 
         // Verifica se é Master (case-sensitive)
         if (perfil === "Master" && navList) {

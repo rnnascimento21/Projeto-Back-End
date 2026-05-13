@@ -8,6 +8,7 @@ const path = require("path");
 
 const app = express();
 
+// --- CONFIGURAÇÃO DO BANCO ---
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -17,7 +18,17 @@ const db = mysql.createConnection({
   ssl: { rejectUnauthorized: false },
 });
 
-app.use(cors());
+// --- CONFIGURAÇÃO DO CORS (O SEGREDO PARA O GITHUB PAGES) ---
+app.use(cors({
+  origin: [
+    "https://rnnascimento21.github.io", // Seu site oficial
+    "http://localhost:3000",           // Testes locais no node
+    "http://127.0.0.1:5500"            // Extensão Live Server do VS Code
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
@@ -26,7 +37,7 @@ db.connect((err) => {
   console.log(`✅ Conectado ao banco Aiven!`);
 });
 
-// --- ROTA DE PROJETOS (ADICIONADA PARA FUNCIONAR O SCRIPT.JS) ---
+// --- ROTA DE PROJETOS ---
 app.get("/projetos", (req, res) => {
   db.query("SELECT * FROM projetos", (err, results) => {
     if (err) return res.status(500).json({ mensagem: "Erro ao buscar projetos." });
@@ -95,7 +106,6 @@ app.post("/verificar-login", async (req, res) => {
       const passwordOk = await bcrypt.compare(codigo, usuario.segunda_senha);
       if (!passwordOk) return res.status(400).json({ mensagem: "Palavra-Passe incorreta." });
 
-      // Enviando o perfil exatamente como está no banco (Master ou Comum)
       res.json({
         usuario: usuario.nome,
         perfil: usuario.perfil,
@@ -114,6 +124,7 @@ app.get("/logs-auditoria", (req, res) => {
   });
 });
 
+// --- ROTAS DE ARQUIVOS ---
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "entrar.html")));
 app.get("/:page", (req, res, next) => {
   const page = req.params.page;
