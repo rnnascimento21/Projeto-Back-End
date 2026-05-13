@@ -19,16 +19,18 @@ const db = mysql.createConnection({
 });
 
 // --- CONFIGURAÇÃO DO CORS (O SEGREDO PARA O GITHUB PAGES) ---
+// Substitua o seu app.use(cors(...)) por este:
 app.use(cors({
   origin: [
-    "https://rnnascimento21.github.io", // Seu site oficial
-    "http://localhost:3000",           // Testes locais no node
-    "http://127.0.0.1:5500"            // Extensão Live Server do VS Code
+    "https://rnnascimento21.github.io", 
+    "https://rnnascimento21.github.io/Projeto-Back-End", // Com o nome do repositório
+    "http://localhost:3000",
+    "http://127.0.0.1:5500"
   ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Adicionado OPTIONS
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
-
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 

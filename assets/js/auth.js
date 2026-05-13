@@ -5,8 +5,13 @@ const submitBtn = document.getElementById("submit-btn");
 const toggleBtn = document.getElementById("toggle-btn");
 
 // --- CONFIGURAÇÃO DA API (IGUAL AO SCRIPT.JS) ---
-const API_URL = "https://projeto-back-end-n8lm.onrender.com";
+// Se estiver testando no PC, use http://localhost:3000
+// Se for subir para o GitHub, use a URL do Render
+const API_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" 
+    ? "http://localhost:3000" 
+    : "https://projeto-back-end-n8lm.onrender.com";
 
+console.log("Conectando em:", API_URL); // Isso vai aparecer no F12 para você saber se está certo
 let currentEmail = "";
 
 // Funções de interface

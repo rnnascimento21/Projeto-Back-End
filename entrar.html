@@ -54,47 +54,34 @@
           <h1>Bem-vindo</h1>
           <p>Faça login para continuar no SustentaTech</p>
         </div>
+
         <form id="auth-form" class="space-y-5">
           <div class="form-group hidden" id="name-field">
             <label for="name">Nome Completo</label>
             <input type="text" id="name" placeholder="Seu nome" />
           </div>
+
           <div class="form-group">
             <label for="email">E-mail</label>
             <input type="email" id="email" required placeholder="email@exemplo.com" />
           </div>
+
           <div class="form-group">
             <label for="password">Senha</label>
             <input type="password" id="password" required placeholder="••••••••" />
           </div>
+
           <div class="form-group hidden" id="code-field">
             <label for="code">Sua Palavra-Passe:</label>
             <input type="password" id="code" placeholder="Digite sua palavra-passe" />
           </div>
 
-        <div class="form-group hidden" id="code-field">
-          <label for="code">Sua Palavra-Passe:</label>
-          <input type="password" id="code" placeholder="Digite sua palavra-passe" />
-        </div>
-
-        <div class="form-group hidden" id="code-field" style="display:none;">
-          <label for="code">Sua Palavra-Passe:</label>
-          <input type="text" id="code" placeholder="Digite sua palavra-passe" />
-        </div>
-
-        <div id="qr-code-container" class="hidden" style="text-align: center; margin: 1rem 0;">
-          <p style="margin-bottom: 0.5rem;">Escaneie este QR code no seu app autenticador:</p>
-          <img id="qr-code" src="" alt="QR Code para 2FA" style="max-width: 200px;" />
-        </div>
-
-        <div id="debug-code" class="hidden"
-          style="margin-top: 0.75rem; color: #155724; background: #d4edda; border: 1px solid #c3e6cb; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.95rem;">
-        </div>
-
-        <button type="submit" id="submit-btn">Entrar</button>
+          <button type="submit" id="submit-btn">Entrar</button>
         </form>
 
-        <p class="subtext">Não tem uma conta? <button type="button" id="toggle-btn">Cadastre-se</button></p>
+        <p class="subtext">
+          Não tem uma conta? <button type="button" id="toggle-btn">Cadastre-se</button>
+        </p>
         <p class="social-notice">Acesso protegido. Suas credenciais não são armazenadas localmente.</p>
       </div>
     </section>
