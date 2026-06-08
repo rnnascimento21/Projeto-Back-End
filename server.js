@@ -116,6 +116,7 @@ app.post("/verificar-login", async (req, res) => {
       res.json({
         usuario: usuario.nome,
         perfil: usuario.perfil,
+        email: usuario.email,
         mensagem: "Sucesso!"
       });
     } catch (e) {
@@ -128,6 +129,113 @@ app.get("/logs-auditoria", (req, res) => {
   db.query("SELECT nome, email, perfil, criado_em FROM usuarios ORDER BY criado_em DESC", (err, results) => {
     if (err) return res.status(500).json({ mensagem: "Erro nos logs." });
     res.json(results);
+  });
+});
+
+// --- ALTERAR NOME ---
+app.put("/alterar-nome", (req, res) => {
+  const { email, senha, novoNome } = req.body;
+  if (!email || !senha || !novoNome) return res.status(400).json({ mensagem: "Dados incompletos." });
+  db.query("SELECT * FROM usuarios WHERE email = ?", [email], async (err, results) => {
+    if (err || results.length === 0) return res.status(401).json({ mensagem: "Usuário não encontrado." });
+    const ok = await bcrypt.compare(senha, results[0].senha);
+    if (!ok) return res.status(401).json({ mensagem: "Senha incorreta." });
+    db.query("UPDATE usuarios SET nome = ? WHERE email = ?", [novoNome, email], (err2) => {
+      if (err2) return res.status(500).json({ mensagem: "Erro ao atualizar." });
+      res.json({ mensagem: "Nome atualizado com sucesso!" });
+    });
+  });
+});
+
+// --- ALTERAR EMAIL ---
+app.put("/alterar-email", (req, res) => {
+  const { email, senha, novoEmail } = req.body;
+  if (!email || !senha || !novoEmail) return res.status(400).json({ mensagem: "Dados incompletos." });
+  db.query("SELECT * FROM usuarios WHERE email = ?", [email], async (err, results) => {
+    if (err || results.length === 0) return res.status(401).json({ mensagem: "Usuário não encontrado." });
+    const ok = await bcrypt.compare(senha, results[0].senha);
+    if (!ok) return res.status(401).json({ mensagem: "Senha incorreta." });
+    db.query("SELECT id FROM usuarios WHERE email = ?", [novoEmail], (err2, exists) => {
+      if (err2) return res.status(500).json({ mensagem: "Erro no servidor." });
+      if (exists.length > 0) return res.status(409).json({ mensagem: "E-mail já em uso." });
+      db.query("UPDATE usuarios SET email = ? WHERE email = ?", [novoEmail, email], (err3) => {
+        if (err3) return res.status(500).json({ mensagem: "Erro ao atualizar." });
+        res.json({ mensagem: "E-mail atualizado com sucesso!" });
+      });
+    });
+  });
+});
+
+// --- ALTERAR SENHA ---
+app.put("/alterar-senha", (req, res) => {
+  const { email, senhaAtual, novaSenha } = req.body;
+  if (!email || !senhaAtual || !novaSenha) return res.status(400).json({ mensagem: "Dados incompletos." });
+  db.query("SELECT * FROM usuarios WHERE email = ?", [email], async (err, results) => {
+    if (err || results.length === 0) return res.status(401).json({ mensagem: "Usuário não encontrado." });
+    const ok = await bcrypt.compare(senhaAtual, results[0].senha);
+    if (!ok) return res.status(401).json({ mensagem: "Senha atual incorreta." });
+    try {
+      const hash = await bcrypt.hash(novaSenha, 10);
+      db.query("UPDATE usuarios SET senha = ? WHERE email = ?", [hash, email], (err2) => {
+        if (err2) return res.status(500).json({ mensagem: "Erro ao atualizar." });
+        res.json({ mensagem: "Senha atualizada com sucesso!" });
+      });
+    } catch { res.status(500).json({ mensagem: "Erro interno." }); }
+  });
+});
+
+// --- ALTERAR 2FA ---
+app.put("/alterar-2fa", (req, res) => {
+  const { email, senhaAtual, novaPalavraPass } = req.body;
+  if (!email || !senhaAtual || !novaPalavraPass) return res.status(400).json({ mensagem: "Dados incompletos." });
+  db.query("SELECT * FROM usuarios WHERE email = ?", [email], async (err, results) => {
+    if (err || results.length === 0) return res.status(401).json({ mensagem: "Usuário não encontrado." });
+    const ok = await bcrypt.compare(senhaAtual, results[0].segunda_senha);
+    if (!ok) return res.status(401).json({ mensagem: "Palavra-passe atual incorreta." });
+    try {
+      const hash = await bcrypt.hash(novaPalavraPass, 10);
+      db.query("UPDATE usuarios SET segunda_senha = ? WHERE email = ?", [hash, email], (err2) => {
+        if (err2) return res.status(500).json({ mensagem: "Erro ao atualizar." });
+        res.json({ mensagem: "Palavra-passe atualizada com sucesso!" });
+      });
+    } catch { res.status(500).json({ mensagem: "Erro interno." }); }
+  });
+});
+
+// --- ADICIONAR PROJETO ---
+app.post("/projetos", (req, res) => {
+  const { email, senha, titulo, descricao, imagem_url } = req.body;
+  if (!email || !senha || !titulo || !descricao) return res.status(400).json({ mensagem: "Dados incompletos." });
+  db.query("SELECT * FROM usuarios WHERE email = ?", [email], async (err, results) => {
+    if (err || results.length === 0) return res.status(401).json({ mensagem: "Usuário não encontrado." });
+    const ok = await bcrypt.compare(senha, results[0].senha);
+    if (!ok) return res.status(401).json({ mensagem: "Senha incorreta." });
+    if (results[0].perfil !== "Master") return res.status(403).json({ mensagem: "Acesso negado." });
+    db.query(
+      "INSERT INTO projetos (titulo, descricao, imagem_url) VALUES (?, ?, ?)",
+      [titulo, descricao, imagem_url || "sustentaTHUMB.png"],
+      (err2, result) => {
+        if (err2) return res.status(500).json({ mensagem: "Erro ao adicionar projeto." });
+        res.json({ mensagem: "Projeto adicionado com sucesso!", id: result.insertId });
+      }
+    );
+  });
+});
+
+// --- DELETAR PROJETO ---
+app.delete("/projetos/:id", (req, res) => {
+  const { email, senha } = req.body;
+  const { id } = req.params;
+  if (!email || !senha) return res.status(400).json({ mensagem: "Dados incompletos." });
+  db.query("SELECT * FROM usuarios WHERE email = ?", [email], async (err, results) => {
+    if (err || results.length === 0) return res.status(401).json({ mensagem: "Usuário não encontrado." });
+    const ok = await bcrypt.compare(senha, results[0].senha);
+    if (!ok) return res.status(401).json({ mensagem: "Senha incorreta." });
+    if (results[0].perfil !== "Master") return res.status(403).json({ mensagem: "Acesso negado." });
+    db.query("DELETE FROM projetos WHERE id = ?", [id], (err2) => {
+      if (err2) return res.status(500).json({ mensagem: "Erro ao deletar." });
+      res.json({ mensagem: "Projeto removido com sucesso!" });
+    });
   });
 });
 

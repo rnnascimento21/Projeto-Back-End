@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SustentaTech | Auditoria</title>
+  <title>Dashboard | SustentaTech</title>
   <link rel="stylesheet" href="assets/css/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/config.css">
 </head>
 <body>
   <header>
@@ -32,28 +32,42 @@
     </nav>
   </header>
 
-  <main>
-    <div class="container mt-5">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Relatório de Auditoria</h2>
-        <a href="index.html" class="btn btn-secondary">Voltar ao Início</a>
+  <main class="dashboard-page">
+    <h1 class="dashboard-title">Dashboard</h1>
+    <p class="dashboard-subtitle">Gerencie os projetos do SustentaTech</p>
+
+    <!-- Área de autenticação (visível apenas para Master) -->
+    <div id="master-only" style="display: none;">
+      <div class="dash-auth">
+        <label>Senha para operações:</label>
+        <input type="password" id="senhaDash" placeholder="Digite sua senha" />
       </div>
-      <div class="card shadow">
-        <div class="card-body">
-          <div id="auditoria-status" class="mb-3 text-muted">Carregando auditoria...</div>
-          <table class="table table-hover" id="auditoria-table">
-            <thead class="table-dark">
-              <tr>
-                <th>Nome</th>
-                <th>E-mail</th>
-                <th>Perfil</th>
-                <th>Data de Cadastro</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-logs"></tbody>
-          </table>
-        </div>
+
+      <div class="dash-card">
+        <h3>Adicionar Novo Projeto</h3>
+        <form id="form-add-projeto">
+          <div class="add-project-form">
+            <div class="full-width">
+              <input type="text" id="proj-titulo" placeholder="Título do projeto" required />
+            </div>
+            <div class="full-width">
+              <textarea id="proj-descricao" rows="3" placeholder="Descrição do projeto" required></textarea>
+            </div>
+            <input type="text" id="proj-imagem" placeholder="Arquivo de imagem (ex: foto.png)" />
+            <button type="submit" class="config-btn" style="align-self: end;">Adicionar Projeto</button>
+          </div>
+          <p class="dash-msg" id="msg-add"></p>
+        </form>
       </div>
+    </div>
+
+    <!-- Lista de projetos (visível para todos) -->
+    <div class="dash-card">
+      <h3>Projetos Cadastrados</h3>
+      <div id="lista-projetos" class="dash-project-list">
+        <p style="color: #6b7280;">Carregando projetos...</p>
+      </div>
+      <p class="dash-msg" id="msg-lista"></p>
     </div>
   </main>
 
@@ -62,7 +76,7 @@
       <section class="line-footer1">
         <h2>Receba notícias da SustentaTech</h2>
         <p>Inscreva-se para receber novidades sobre nossos projetos e ações.</p>
-        <form id="newsletter-form">
+        <form id="newsletter-form" onsubmit="return false">
           <input type="email" id="newsletter-email" placeholder="Digite seu e-mail" required />
           <input type="submit" value="Cadastrar" />
         </form>
@@ -91,39 +105,6 @@
 
   <script src="assets/js/darkmode.js"></script>
   <script src="assets/js/script.js"></script>
-  <script>
-    const AUDIT_API = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-      ? "http://localhost:3000"
-      : "https://projeto-back-end-n8lm.onrender.com";
-
-    const status = document.getElementById('auditoria-status');
-    const tabela = document.getElementById('auditoria-table');
-
-    fetch(`${AUDIT_API}/logs-auditoria`)
-      .then(res => res.json())
-      .then(data => {
-        const lista = document.getElementById('tabela-logs');
-        if (!Array.isArray(data) || data.length === 0) {
-          status.textContent = "Nenhum registro de auditoria encontrado.";
-          tabela.style.display = 'none';
-          return;
-        }
-        status.textContent = "";
-        tabela.style.display = '';
-        lista.innerHTML = data.map(log => `
-          <tr>
-            <td>${log.nome}</td>
-            <td>${log.email}</td>
-            <td><span class="badge ${log.perfil === 'Master' ? 'bg-danger' : 'bg-primary'}">${log.perfil}</span></td>
-            <td>${new Date(log.criado_em).toLocaleString('pt-BR')}</td>
-          </tr>
-        `).join('');
-      })
-      .catch(err => {
-        console.error("Erro ao carregar auditoria:", err);
-        status.textContent = "Erro ao carregar auditoria.";
-        tabela.style.display = 'none';
-      });
-  </script>
+  <script src="assets/js/dashboard.js"></script>
 </body>
 </html>

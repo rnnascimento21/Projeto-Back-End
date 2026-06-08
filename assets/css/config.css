@@ -1,0 +1,535 @@
+/* ===== CONFIGURAÇÕES — light mode (padrão) ===== */
+
+.config-page {
+  display: flex;
+  min-height: calc(100vh - 80px);
+  background: #f5f5f5;
+}
+
+.config-sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: #ffffff;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border-right: 1px solid #e0e0e0;
+}
+
+.config-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: #555;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 0.2s, color 0.2s;
+}
+
+.config-tab:hover {
+  background: #f0f4f1;
+  color: #1e8449;
+}
+
+.config-tab.active {
+  background: #1e8449;
+  color: #fff;
+  font-weight: 600;
+}
+
+.tab-icon {
+  font-size: 1.1rem;
+}
+
+.config-content {
+  flex: 1;
+  padding: 2.5rem 3rem;
+  max-width: 560px;
+}
+
+.config-section {
+  display: none;
+}
+
+.config-section.active {
+  display: block;
+}
+
+.config-title {
+  color: #1e8449;
+  font-size: 1.4rem;
+  margin-bottom: 1.8rem;
+  padding-left: 1rem;
+  border-left: 3px solid #1e8449;
+}
+
+/* Campos */
+.config-field {
+  position: relative;
+  margin-bottom: 1.1rem;
+}
+
+.config-field input[type="text"],
+.config-field input[type="email"],
+.config-field input[type="password"] {
+  width: 100%;
+  padding: 0.85rem 3.8rem 0.85rem 1.1rem;
+  background: #ffffff;
+  border: 1px solid #c7d7c8;
+  border-radius: 10px;
+  color: #1d2a2c;
+  font-size: 0.95rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.config-field input:focus {
+  border-color: #1e8449;
+  box-shadow: 0 0 0 2px rgba(30, 132, 73, 0.15);
+}
+
+.config-field input::placeholder {
+  color: #9aabac;
+}
+
+.field-actions {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.field-actions button {
+  background: transparent;
+  border: none;
+  color: #aab4b5;
+  cursor: pointer;
+  padding: 0.15rem 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.field-actions button:hover {
+  color: #1e8449;
+}
+
+/* Regras de senha */
+.password-rules {
+  list-style: none;
+  padding: 0.9rem 1.1rem;
+  background: #f7fbf7;
+  border: 1px solid #d4e8d5;
+  border-radius: 8px;
+  margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.password-rules li {
+  font-size: 0.88rem;
+  color: #52656d;
+}
+
+/* Botão submit */
+.config-btn {
+  margin-top: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: #1e8449;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
+  box-shadow: 0 2px 8px rgba(30, 132, 73, 0.3);
+}
+
+.config-btn:hover {
+  background: #176a3e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(30, 132, 73, 0.4);
+}
+
+.config-msg {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  min-height: 1.2rem;
+}
+
+/* ===== DASHBOARD — light mode ===== */
+
+.dashboard-page {
+  background: #f5f5f5;
+  min-height: calc(100vh - 80px);
+  padding: 2.5rem 3rem;
+  color: #1c2025;
+}
+
+.dashboard-title {
+  font-size: 1.6rem;
+  color: #1e8449;
+  margin-bottom: 0.4rem;
+}
+
+.dashboard-subtitle {
+  color: #52656d;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.dash-card {
+  background: #ffffff;
+  border: 1px solid #e0e8e0;
+  border-radius: 12px;
+  padding: 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.dash-card h3 {
+  color: #1e8449;
+  margin-bottom: 1.4rem;
+  font-size: 1.05rem;
+  border-left: 3px solid #1e8449;
+  padding-left: 0.75rem;
+}
+
+.dash-auth {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  background: #ffffff;
+  border: 1px solid #e0e8e0;
+  border-radius: 10px;
+  padding: 1rem 1.4rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.dash-auth label {
+  color: #52656d;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.dash-auth input {
+  flex: 1;
+  max-width: 300px;
+  padding: 0.65rem 1rem;
+  background: #f7fbf7;
+  border: 1px solid #c7d7c8;
+  border-radius: 8px;
+  color: #1d2a2c;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.dash-auth input:focus {
+  border-color: #1e8449;
+}
+
+.dash-auth input::placeholder {
+  color: #9aabac;
+}
+
+.add-project-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.add-project-form .full-width {
+  grid-column: 1 / -1;
+}
+
+.add-project-form input,
+.add-project-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #f7fbf7;
+  border: 1px solid #c7d7c8;
+  border-radius: 8px;
+  color: #1d2a2c;
+  font-size: 0.9rem;
+  outline: none;
+  resize: vertical;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.add-project-form input:focus,
+.add-project-form textarea:focus {
+  border-color: #1e8449;
+}
+
+.add-project-form input::placeholder,
+.add-project-form textarea::placeholder {
+  color: #9aabac;
+}
+
+.dash-msg {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.dash-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dash-project-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  background: #f7fbf7;
+  border: 1px solid #d4e8d5;
+  border-radius: 10px;
+  gap: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.dash-project-card:hover {
+  border-color: #1e8449;
+  box-shadow: 0 2px 8px rgba(30, 132, 73, 0.1);
+}
+
+.dash-project-info h4 {
+  font-size: 0.97rem;
+  color: #1e8449;
+  margin-bottom: 0.2rem;
+}
+
+.dash-project-info p {
+  font-size: 0.82rem;
+  color: #52656d;
+}
+
+.dash-delete-btn {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid #f5c6c6;
+  border-radius: 6px;
+  padding: 0.4rem 0.85rem;
+  color: #d32f2f;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.dash-delete-btn:hover {
+  background: #ffebee;
+  border-color: #d32f2f;
+}
+
+/* ===== DARK MODE ===== */
+
+body.dark-mode .config-page {
+  background: #2f343d;
+}
+
+body.dark-mode .config-sidebar {
+  background: #252b34;
+  border-right-color: #323a46;
+}
+
+body.dark-mode .config-tab {
+  color: #8892a4;
+}
+
+body.dark-mode .config-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+}
+
+body.dark-mode .config-tab.active {
+  background: #1e8449;
+  color: #fff;
+}
+
+body.dark-mode .config-title {
+  color: #4ade80;
+  border-left-color: #1e8449;
+}
+
+body.dark-mode .config-field input[type="text"],
+body.dark-mode .config-field input[type="email"],
+body.dark-mode .config-field input[type="password"] {
+  background: #1c2028;
+  border-color: #2a2f3d;
+  color: #e2e8f0;
+}
+
+body.dark-mode .config-field input:focus {
+  border-color: #1e8449;
+  box-shadow: 0 0 0 2px rgba(30, 132, 73, 0.2);
+}
+
+body.dark-mode .config-field input::placeholder {
+  color: #4a5060;
+}
+
+body.dark-mode .field-actions button {
+  color: #6b7280;
+}
+
+body.dark-mode .field-actions button:hover {
+  color: #4ade80;
+}
+
+body.dark-mode .password-rules {
+  background: #1c2028;
+  border-color: #2a2f3d;
+}
+
+body.dark-mode .password-rules li {
+  color: #9aa5b4;
+}
+
+body.dark-mode .dashboard-page {
+  background: #2f343d;
+  color: #d6dbe3;
+}
+
+body.dark-mode .dashboard-title {
+  color: #4ade80;
+}
+
+body.dark-mode .dashboard-subtitle {
+  color: #8892a4;
+}
+
+body.dark-mode .dash-card {
+  background: #1e2430;
+  border-color: #2a3348;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .dash-card h3 {
+  color: #4ade80;
+}
+
+body.dark-mode .dash-auth {
+  background: #1e2430;
+  border-color: #2a3348;
+}
+
+body.dark-mode .dash-auth label {
+  color: #9aa5b4;
+}
+
+body.dark-mode .dash-auth input,
+body.dark-mode .add-project-form input,
+body.dark-mode .add-project-form textarea {
+  background: #1c2028;
+  border-color: #2a2f3d;
+  color: #e2e8f0;
+}
+
+body.dark-mode .dash-auth input::placeholder,
+body.dark-mode .add-project-form input::placeholder,
+body.dark-mode .add-project-form textarea::placeholder {
+  color: #4a5568;
+}
+
+body.dark-mode .dash-auth input:focus,
+body.dark-mode .add-project-form input:focus,
+body.dark-mode .add-project-form textarea:focus {
+  border-color: #1e8449;
+}
+
+body.dark-mode .dash-project-card {
+  background: #1c2028;
+  border-color: #2a2f3d;
+}
+
+body.dark-mode .dash-project-card:hover {
+  border-color: #1e8449;
+  box-shadow: 0 2px 8px rgba(30, 132, 73, 0.15);
+}
+
+body.dark-mode .dash-project-info h4 {
+  color: #4ade80;
+}
+
+body.dark-mode .dash-project-info p {
+  color: #6b7280;
+}
+
+body.dark-mode .dash-delete-btn {
+  border-color: #3d1a1a;
+  color: #f87171;
+}
+
+body.dark-mode .dash-delete-btn:hover {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: #f87171;
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media screen and (max-width: 768px) {
+  .config-page {
+    flex-direction: column;
+  }
+
+  .config-sidebar {
+    width: 100%;
+    min-width: unset;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0.8rem;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    gap: 0.3rem;
+  }
+
+  body.dark-mode .config-sidebar {
+    border-bottom-color: #323a46;
+  }
+
+  .config-tab {
+    white-space: nowrap;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.88rem;
+  }
+
+  .config-content {
+    padding: 1.5rem;
+  }
+
+  .dashboard-page {
+    padding: 1.5rem;
+  }
+
+  .add-project-form {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-auth {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dash-auth input {
+    max-width: 100%;
+    width: 100%;
+  }
+}

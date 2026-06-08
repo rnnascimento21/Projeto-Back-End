@@ -11,8 +11,23 @@ const API_URL = window.location.hostname === "localhost" || window.location.host
     ? "http://localhost:3000" 
     : "https://projeto-back-end-n8lm.onrender.com";
 
-console.log("Conectando em:", API_URL); // Isso vai aparecer no F12 para você saber se está certo
 let currentEmail = "";
+
+// Pré-preenche email e ativa modo cadastro via parâmetros da URL (vindo do newsletter)
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const emailParam = params.get("email");
+  const modoParam  = params.get("modo");
+
+  if (emailParam) {
+    const emailInput = document.getElementById("email");
+    if (emailInput) emailInput.value = decodeURIComponent(emailParam);
+  }
+
+  if (modoParam === "cadastro" && submitBtn && submitBtn.innerText === "Entrar") {
+    toggleBtn && toggleBtn.click();
+  }
+});
 
 // Funções de interface
 function showCodeField() {
@@ -66,7 +81,8 @@ if (authForm) {
                 
                 if (resposta.ok) {
                     localStorage.setItem("usuarioNome", dados.usuario);
-                    localStorage.setItem("perfil", dados.perfil); 
+                    localStorage.setItem("perfil", dados.perfil);
+                    localStorage.setItem("usuarioEmail", dados.email || currentEmail || email);
                     window.location.href = "index.html";
                 } else {
                     alert(dados.mensagem);
