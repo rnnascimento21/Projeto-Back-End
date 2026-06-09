@@ -89,7 +89,7 @@ function configurarMenuUsuario() {
 
   if (usuarioNome && loginBtn) {
     const dashLink = perfil === "Master"
-      ? `<a href="dashboard.html" class="dropdown-item">📊 Dashboard</a>`
+      ? `<a href="dashboard.html" class="dropdown-item"> ➕ Adicionar Projeto</a>`
       : "";
     const initial = usuarioNome.charAt(0).toUpperCase();
     loginBtn.innerHTML = `<button class="user-profile-btn" id="userProfileBtn"><span class="user-avatar">${initial}</span>${usuarioNome}</button><div class="user-dropdown" id="userDropdown" style="display:none;">${dashLink}<a href="configuracoes.html" class="dropdown-item">⚙️ Configurações</a><a href="#" class="dropdown-item logout" onclick="logout(event)">🚪 Sair</a></div>`;
