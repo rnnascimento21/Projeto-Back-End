@@ -30,14 +30,20 @@ async function carregarProjetos() {
       return;
     }
 
-    projetos.forEach((projeto) => {
-      container.innerHTML += `
-                <div class="portfolio-item">
-                  <img src="assets/img/${projeto.imagem_url}" alt="${projeto.titulo}" onerror="this.src='assets/img/sustentaTHUMB.png'">
-                  <h3>${projeto.titulo}</h3>
-                  <p>${projeto.descricao}</p>
-                </div>`;
-    });
+    projetos.forEach((projeto, index) => {
+  let pagina = "#";
+  if (index === 0) pagina = "energia-solar.html";
+  if (index === 1) pagina = "reciclagem.html";
+  if (index === 2) pagina = "reflorestamento.html";
+
+  container.innerHTML += `
+    <div class="portfolio-item">
+      <img src="assets/img/${projeto.imagem_url}" alt="${projeto.titulo}" onerror="this.src='assets/img/sustentaTHUMB.png'">
+      <h3>${projeto.titulo}</h3>
+      <p>${projeto.descricao}</p>
+      <a href="${pagina}" class="btn-ver-mais">Ver mais →</a>
+    </div>`;
+});
   } catch (erro) {
     console.error("Erro ao carregar projetos:", erro);
     container.innerHTML = "<p>Erro ao carregar projetos.</p>";
@@ -66,14 +72,20 @@ async function buscarProjetos(termo) {
       return;
     }
 
-    projetos.forEach((projeto) => {
-      container.innerHTML += `
-                <div class="portfolio-item">
-                  <img src="assets/img/${projeto.imagem_url}" alt="${projeto.titulo}" onerror="this.src='assets/img/sustentaTHUMB.png'">
-                  <h3>${projeto.titulo}</h3>
-                  <p>${projeto.descricao}</p>
-                </div>`;
-    });
+    projetos.forEach((projeto, index) => {
+  let pagina = "#";
+  if (index === 0) pagina = "energia-solar.html";
+  if (index === 1) pagina = "reciclagem.html";
+  if (index === 2) pagina = "reflorestamento.html";
+
+  container.innerHTML += `
+    <div class="portfolio-item">
+      <img src="assets/img/${projeto.imagem_url}" alt="${projeto.titulo}" onerror="this.src='assets/img/sustentaTHUMB.png'">
+      <h3>${projeto.titulo}</h3>
+      <p>${projeto.descricao}</p>
+      <a href="${pagina}" class="btn-ver-mais">Ver mais →</a>
+    </div>`;
+});
   } catch (erro) {
     console.error("Erro ao buscar projetos:", erro);
     container.innerHTML = "<p>Erro ao buscar projetos.</p>";
